@@ -6,211 +6,240 @@
 <title>Pro DNA Técnico — Curso Técnico de Enfermagem</title>
 <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
 <link rel="shortcut icon" href="favicon.svg"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&display=swap');
-
-:root {
-  --bg:        #061008;
-  --bg2:       #0a1a0c;
-  --surface:   #0d2210;
-  --card:      #102814;
-  --green:     #1cac50;
-  --green2:    #22d860;
-  --green-dark:#0d7a35;
-  --orange:    #e87c20;
-  --orange2:   #ff9432;
-  --black:     #040707;
-  --white:     #ffffff;
-  --text:      #e8f5ec;
-  --muted:     #6aaa7a;
-  --border:    rgba(28,172,80,0.18);
-  --wpp:       #25D366;
-  --radius:    16px;
+:root{
+  --bg:#061008;--bg2:#0a1a0c;--surface:#0d2210;--card:#102814;
+  --green:#1cac50;--green2:#22d860;--green-dark:#0d7a35;
+  --orange:#e87c20;--orange2:#ff9432;
+  --black:#040707;--white:#ffffff;--text:#e8f5ec;--muted:#6aaa7a;
+  --border:rgba(28,172,80,0.18);--wpp:#25D366;--radius:16px;
 }
-
 *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;}
 
-/* ── UTILS ── */
-.container{max-width:1100px;margin:0 auto;padding:0 24px;}
+/* ── GRAIN TEXTURE ── */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity:.4;
+}
 
+/* ── DNA BG LAYER ── */
+.dna-layer{
+  position:absolute;pointer-events:none;overflow:hidden;inset:0;
+}
+.dna-layer svg{
+  position:absolute;opacity:.04;
+}
+
+/* ── UTILS ── */
+.container{max-width:1100px;margin:0 auto;padding:0 20px;position:relative;z-index:1;}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideLeft{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+@keyframes slideRight{from{opacity:0;transform:translateX(-40px)}to{opacity:1;transform:translateX(0)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(28,172,80,.6)}70%{box-shadow:0 0 0 10px rgba(28,172,80,0)}100%{box-shadow:0 0 0 0 rgba(28,172,80,0)}}
+@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+@keyframes rotateDNA{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes breathe{0%,100%{opacity:.04}50%{opacity:.07}}
+
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-left{opacity:0;transform:translateX(-32px);transition:opacity .65s ease,transform .65s ease;}
+.reveal-left.visible{opacity:1;transform:translateX(0);}
+.reveal-right{opacity:0;transform:translateX(32px);transition:opacity .65s ease,transform .65s ease;}
+.reveal-right.visible{opacity:1;transform:translateX(0);}
+.delay-1{transition-delay:.1s}
+.delay-2{transition-delay:.2s}
+.delay-3{transition-delay:.3s}
+.delay-4{transition-delay:.4s}
+.delay-5{transition-delay:.5s}
+
+/* ── BUTTONS ── */
 .btn-orange{
   display:inline-flex;align-items:center;justify-content:center;gap:10px;
   background:linear-gradient(135deg,var(--orange),var(--orange2));
-  color:#fff;font-family:'Montserrat',sans-serif;font-weight:800;font-size:1.05rem;
-  padding:18px 40px;border-radius:999px;text-decoration:none;
-  box-shadow:0 8px 28px rgba(232,124,32,0.4);
-  transition:transform .2s,box-shadow .2s;border:none;cursor:pointer;
-  letter-spacing:.02em;
+  color:#fff;font-family:'Montserrat',sans-serif;font-weight:800;font-size:1rem;
+  padding:17px 38px;border-radius:999px;text-decoration:none;
+  box-shadow:0 8px 28px rgba(232,124,32,.4);
+  transition:transform .2s,box-shadow .2s;border:none;cursor:pointer;letter-spacing:.02em;
 }
-.btn-orange:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(232,124,32,0.5);}
+.btn-orange:hover{transform:translateY(-3px);box-shadow:0 14px 36px rgba(232,124,32,.55);}
+.btn-orange svg{width:20px;height:20px;fill:#fff;flex-shrink:0;}
 
 .btn-wpp{
   display:inline-flex;align-items:center;justify-content:center;gap:10px;
   background:var(--wpp);color:#fff;
-  font-family:'Montserrat',sans-serif;font-weight:800;font-size:1rem;
-  padding:16px 36px;border-radius:999px;text-decoration:none;
-  box-shadow:0 8px 28px rgba(37,211,102,0.35);
-  transition:transform .2s;
+  font-family:'Montserrat',sans-serif;font-weight:800;font-size:.92rem;
+  padding:15px 32px;border-radius:999px;text-decoration:none;
+  box-shadow:0 8px 28px rgba(37,211,102,.3);transition:transform .2s;
 }
-.btn-wpp:hover{transform:translateY(-2px);}
-.btn-wpp svg,.btn-orange svg{width:22px;height:22px;fill:#fff;flex-shrink:0;}
+.btn-wpp:hover{transform:translateY(-3px);}
+.btn-wpp svg{width:20px;height:20px;fill:#fff;flex-shrink:0;}
 
 .tag{
-  display:inline-block;
-  background:rgba(28,172,80,0.15);
-  border:1px solid rgba(28,172,80,0.35);
-  color:var(--green2);
-  font-family:'Montserrat',sans-serif;
-  font-size:.68rem;font-weight:700;
-  letter-spacing:.22em;text-transform:uppercase;
-  padding:6px 14px;border-radius:999px;
+  display:inline-block;background:rgba(28,172,80,.15);
+  border:1px solid rgba(28,172,80,.35);color:var(--green2);
+  font-family:'Montserrat',sans-serif;font-size:.65rem;font-weight:700;
+  letter-spacing:.22em;text-transform:uppercase;padding:6px 14px;border-radius:999px;
 }
-
 .section-title{
-  font-family:'Montserrat',sans-serif;
-  font-size:clamp(1.7rem,4vw,2.5rem);
+  font-family:'Montserrat',sans-serif;font-size:clamp(1.65rem,4vw,2.5rem);
   font-weight:900;color:var(--white);line-height:1.15;
 }
 .section-title span{color:var(--green2);}
-.section-sub{font-size:.98rem;color:var(--muted);line-height:1.75;margin-top:12px;}
+.section-sub{font-size:.95rem;color:var(--muted);line-height:1.75;margin-top:12px;}
 
-/* ── LOGO SVG ── */
-.logo-svg{height:42px;width:auto;}
-.logo-svg-sm{height:32px;width:auto;}
+/* ── SVG ICONS ── */
+.icon{width:28px;height:28px;flex-shrink:0;}
+.icon-lg{width:40px;height:40px;}
+.icon-wrap{
+  width:56px;height:56px;border-radius:14px;
+  background:rgba(28,172,80,.1);border:1px solid rgba(28,172,80,.2);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.icon-wrap svg{width:26px;height:26px;fill:none;stroke:var(--green);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
 
 /* ════════════ NAV ════════════ */
 nav{
-  position:fixed;top:0;left:0;right:0;z-index:100;
-  background:rgba(255,255,255,0.12);
-  backdrop-filter:blur(20px);
-  -webkit-backdrop-filter:blur(20px);
-  border-bottom:1px solid rgba(255,255,255,0.18);
-  box-shadow:0 4px 24px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.25);
-  padding:0 24px;
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  background:rgba(255,255,255,.1);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border-bottom:1px solid rgba(255,255,255,.15);
+  box-shadow:0 4px 30px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.22);
+  padding:0 20px;
 }
 .nav-inner{
   max-width:1100px;margin:0 auto;
-  display:flex;align-items:center;justify-content:space-between;height:70px;
+  display:flex;align-items:center;justify-content:space-between;height:66px;
 }
+.logo-svg{height:40px;width:auto;}
 .nav-cta{
-  display:inline-flex;align-items:center;gap:8px;
+  display:inline-flex;align-items:center;gap:7px;
   background:var(--orange);color:#fff;
-  font-family:'Montserrat',sans-serif;font-weight:800;font-size:.8rem;
-  padding:10px 22px;border-radius:999px;text-decoration:none;
-  transition:transform .2s,background .2s;
+  font-family:'Montserrat',sans-serif;font-weight:800;font-size:.75rem;
+  padding:10px 20px;border-radius:999px;text-decoration:none;
+  transition:transform .2s,background .2s;letter-spacing:.02em;
 }
-.nav-cta:hover{transform:scale(1.03);background:var(--orange2);}
+.nav-cta:hover{transform:scale(1.04);background:var(--orange2);}
+.nav-cta svg{width:16px;height:16px;fill:#fff;}
 
 /* ════════════ HERO ════════════ */
 .hero{
   min-height:100vh;display:flex;align-items:center;
-  padding:100px 24px 80px;position:relative;overflow:hidden;
+  padding:90px 20px 70px;position:relative;overflow:hidden;
 }
-.hero::before{
-  content:'';position:absolute;top:-300px;right:-200px;
-  width:800px;height:800px;
-  background:radial-gradient(circle,rgba(28,172,80,.09) 0%,transparent 65%);
-  pointer-events:none;
+/* glows */
+.hero-glow1{
+  position:absolute;top:-20%;right:-15%;width:70vw;height:70vw;max-width:700px;max-height:700px;
+  background:radial-gradient(circle,rgba(28,172,80,.08) 0%,transparent 65%);
+  pointer-events:none;animation:breathe 6s ease-in-out infinite;
 }
-.hero::after{
-  content:'';position:absolute;bottom:-200px;left:-100px;
-  width:600px;height:600px;
+.hero-glow2{
+  position:absolute;bottom:-10%;left:-10%;width:50vw;height:50vw;max-width:500px;max-height:500px;
   background:radial-gradient(circle,rgba(28,172,80,.05) 0%,transparent 65%);
-  pointer-events:none;
+  pointer-events:none;animation:breathe 8s ease-in-out infinite reverse;
 }
-/* DNA helix decoration */
-.dna-bg{
-  position:absolute;right:-60px;top:50%;transform:translateY(-50%);
-  opacity:.04;pointer-events:none;
-  width:420px;height:420px;
+.dna-hero-bg{
+  position:absolute;right:-40px;top:50%;transform:translateY(-50%);
+  width:min(480px,60vw);opacity:.05;pointer-events:none;
+  animation:breathe 10s ease-in-out infinite;
 }
 
 .hero-inner{
-  max-width:1100px;margin:0 auto;
-  display:grid;grid-template-columns:1fr 1fr;
-  gap:64px;align-items:center;position:relative;z-index:1;
+  max-width:1100px;margin:0 auto;position:relative;z-index:1;
+  display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center;
 }
-.hero-left{display:flex;flex-direction:column;gap:28px;}
+.hero-left{display:flex;flex-direction:column;gap:26px;}
 
-.hero-eyebrow{
-  display:flex;align-items:center;gap:10px;
-}
+.hero-eyebrow{display:flex;align-items:center;gap:10px;animation:fadeUp .6s ease both;}
 .pulse-dot{
   width:10px;height:10px;border-radius:50%;
-  background:var(--green);
-  box-shadow:0 0 0 0 rgba(28,172,80,.6);
-  animation:pulse 2s infinite;flex-shrink:0;
+  background:var(--green);animation:pulse 2s infinite;flex-shrink:0;
 }
-@keyframes pulse{
-  0%{box-shadow:0 0 0 0 rgba(28,172,80,.6);}
-  70%{box-shadow:0 0 0 10px rgba(28,172,80,0);}
-  100%{box-shadow:0 0 0 0 rgba(28,172,80,0);}
-}
-.eyebrow-text{font-size:.78rem;color:var(--green);font-weight:700;letter-spacing:.15em;text-transform:uppercase;font-family:'Montserrat',sans-serif;}
+.eyebrow-text{font-size:.75rem;color:var(--green);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-family:'Montserrat',sans-serif;}
 
 .hero-title{
   font-family:'Montserrat',sans-serif;
-  font-size:clamp(2.1rem,5.5vw,3.6rem);
-  font-weight:900;color:var(--white);line-height:1.08;
+  font-size:clamp(2rem,5.5vw,3.4rem);font-weight:900;
+  color:var(--white);line-height:1.08;
+  animation:fadeUp .7s .1s ease both;
 }
 .hero-title .accent{color:var(--green2);}
-.hero-title .block{
-  display:inline-block;
-  background:linear-gradient(135deg,var(--green-dark),var(--green));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  background-clip:text;
+.hero-title .grad{
+  background:linear-gradient(135deg,var(--green-dark),var(--green2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
 }
 
-.hero-desc{font-size:1.05rem;color:#9abfa4;line-height:1.75;}
+.hero-desc{
+  font-size:1rem;color:#9abfa4;line-height:1.75;
+  animation:fadeUp .7s .2s ease both;
+}
 .hero-desc strong{color:var(--white);}
 
-.hero-chips{display:flex;flex-wrap:wrap;gap:10px;}
+.hero-chips{
+  display:flex;flex-wrap:wrap;gap:9px;
+  animation:fadeUp .7s .3s ease both;
+}
 .chip{
-  display:inline-flex;align-items:center;gap:8px;
-  background:rgba(28,172,80,.1);border:1px solid rgba(28,172,80,.2);
-  border-radius:999px;padding:9px 18px;
-  font-size:.82rem;color:var(--text);font-weight:600;
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(28,172,80,.1);border:1px solid rgba(28,172,80,.22);
+  border-radius:999px;padding:8px 16px;
+  font-size:.78rem;color:var(--text);font-weight:600;
   font-family:'Montserrat',sans-serif;
+  transition:background .2s,border-color .2s;
 }
-.chip-icon{font-size:.9rem;}
+.chip:hover{background:rgba(28,172,80,.18);border-color:rgba(28,172,80,.4);}
+.chip svg{width:15px;height:15px;fill:none;stroke:var(--green);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;}
 
-.hero-ctas{display:flex;flex-wrap:wrap;gap:14px;align-items:center;}
+.hero-ctas{
+  display:flex;flex-wrap:wrap;gap:12px;align-items:center;
+  animation:fadeUp .7s .4s ease both;
+}
 
-/* VIDEO */
+/* ── VIDEO ── */
+.video-wrap{animation:slideLeft .8s .2s ease both;}
 .video-box{
-  background:var(--surface);
-  border:1px solid var(--border);
+  background:linear-gradient(160deg,rgba(28,172,80,.08),rgba(13,34,16,.9));
+  border:1px solid rgba(28,172,80,.22);
   border-radius:24px;overflow:hidden;
-  aspect-ratio:9/16;max-height:580px;
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;gap:18px;
+  aspect-ratio:9/16;max-height:560px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
   position:relative;
+  box-shadow:0 32px 80px rgba(0,0,0,.45),0 0 0 1px rgba(28,172,80,.1);
 }
-.video-box::before{
+/* subtle inner glow */
+.video-box::after{
   content:'';position:absolute;inset:0;
-  background:linear-gradient(160deg,rgba(28,172,80,.06),rgba(28,172,80,.02));
+  background:linear-gradient(180deg,rgba(28,172,80,.04) 0%,transparent 40%,transparent 60%,rgba(0,0,0,.3) 100%);
+  pointer-events:none;
 }
 .video-play-btn{
-  width:76px;height:76px;
+  width:72px;height:72px;
   background:linear-gradient(135deg,var(--green),var(--green-dark));
   border-radius:50%;display:flex;align-items:center;justify-content:center;
-  box-shadow:0 8px 32px rgba(28,172,80,.4);position:relative;z-index:1;
-  cursor:pointer;transition:transform .2s;
+  box-shadow:0 8px 32px rgba(28,172,80,.45);position:relative;z-index:1;
+  cursor:pointer;transition:transform .2s,box-shadow .2s;
+  animation:float 3s ease-in-out infinite;
 }
-.video-play-btn:hover{transform:scale(1.08);}
-.video-play-btn svg{width:30px;height:30px;fill:#fff;margin-left:5px;}
+.video-play-btn:hover{transform:scale(1.1);box-shadow:0 12px 40px rgba(28,172,80,.6);}
+.video-play-btn svg{width:28px;height:28px;fill:#fff;margin-left:4px;}
 .video-placeholder-text{
-  font-family:'Montserrat',sans-serif;font-size:.72rem;font-weight:700;
-  color:var(--muted);letter-spacing:.15em;text-transform:uppercase;
-  position:relative;z-index:1;
+  font-family:'Montserrat',sans-serif;font-size:.68rem;font-weight:700;
+  color:var(--muted);letter-spacing:.16em;text-transform:uppercase;position:relative;z-index:1;
 }
 .video-badge{
-  position:absolute;bottom:20px;left:50%;transform:translateX(-50%);
-  background:rgba(0,0,0,.7);backdrop-filter:blur(8px);
-  border:1px solid rgba(28,172,80,.2);border-radius:999px;
-  padding:9px 20px;font-size:.74rem;color:var(--text);font-weight:600;
+  position:absolute;bottom:18px;left:50%;transform:translateX(-50%);
+  background:rgba(0,0,0,.75);backdrop-filter:blur(10px);
+  border:1px solid rgba(28,172,80,.22);border-radius:999px;
+  padding:8px 18px;font-size:.72rem;color:var(--text);font-weight:600;
   white-space:nowrap;z-index:2;
 }
 .video-badge span{color:var(--green2);}
@@ -219,162 +248,220 @@ nav{
 .offer-strip{
   background:linear-gradient(90deg,var(--black),#0d1f0f,var(--black));
   border-top:1px solid var(--border);border-bottom:1px solid var(--border);
-  padding:48px 24px;
+  padding:44px 20px;position:relative;overflow:hidden;
 }
 .offer-strip-inner{
   max-width:1100px;margin:0 auto;
-  display:grid;grid-template-columns:repeat(4,1fr);gap:20px;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:16px;position:relative;z-index:1;
 }
 .offer-item{
-  display:flex;flex-direction:column;align-items:center;gap:10px;
-  text-align:center;padding:28px 16px;
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+  text-align:center;padding:26px 14px;
   background:rgba(28,172,80,.06);border:1px solid var(--border);
-  border-radius:20px;transition:border-color .2s,transform .2s;
+  border-radius:20px;transition:border-color .2s,transform .25s,background .2s;
 }
-.offer-item:hover{border-color:rgba(28,172,80,.4);transform:translateY(-3px);}
-.offer-icon{font-size:2.2rem;}
-.offer-label{font-size:.62rem;color:var(--muted);letter-spacing:.2em;text-transform:uppercase;font-family:'Montserrat',sans-serif;font-weight:700;}
-.offer-value{font-family:'Montserrat',sans-serif;font-size:1.4rem;font-weight:900;color:var(--green2);}
-.offer-desc{font-size:.74rem;color:#4a7a5a;line-height:1.4;}
+.offer-item:hover{border-color:rgba(28,172,80,.4);transform:translateY(-4px);background:rgba(28,172,80,.1);}
+.offer-item svg{width:32px;height:32px;fill:none;stroke:var(--green);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
+.offer-label{font-size:.6rem;color:var(--muted);letter-spacing:.2em;text-transform:uppercase;font-family:'Montserrat',sans-serif;font-weight:700;}
+.offer-value{font-family:'Montserrat',sans-serif;font-size:1.35rem;font-weight:900;color:var(--green2);}
+.offer-desc{font-size:.72rem;color:#4a7a5a;line-height:1.4;}
 
 /* ════════════ WHAT THEY DO ════════════ */
-.section{padding:100px 24px;}
-.section-header{text-align:center;max-width:700px;margin:0 auto 60px;}
+.section{padding:90px 20px;position:relative;}
+.section-header{text-align:center;max-width:680px;margin:0 auto 56px;}
 
-.proc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.proc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
 .proc-card{
   background:var(--surface);border:1px solid var(--border);
-  border-radius:20px;padding:30px 26px;
-  display:flex;flex-direction:column;gap:14px;
-  transition:transform .2s,border-color .2s,background .2s;
+  border-radius:20px;padding:28px 24px;
+  display:flex;flex-direction:column;gap:16px;
+  transition:transform .25s,border-color .2s,background .2s;
+  position:relative;overflow:hidden;
 }
-.proc-card:hover{transform:translateY(-4px);border-color:rgba(28,172,80,.4);background:var(--card);}
-.proc-card-icon{font-size:2rem;}
-.proc-card-title{font-family:'Montserrat',sans-serif;font-size:1rem;font-weight:800;color:var(--white);}
-.proc-card-desc{font-size:.84rem;color:var(--muted);line-height:1.65;}
+.proc-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,rgba(28,172,80,.5),transparent);
+  opacity:0;transition:opacity .3s;
+}
+.proc-card:hover{transform:translateY(-5px);border-color:rgba(28,172,80,.4);background:var(--card);}
+.proc-card:hover::before{opacity:1;}
+.proc-card-icon{/* icon-wrap styles applied inline */}
+.proc-card-title{font-family:'Montserrat',sans-serif;font-size:.95rem;font-weight:800;color:var(--white);}
+.proc-card-desc{font-size:.82rem;color:var(--muted);line-height:1.65;}
 
 /* ════════════ AREAS ════════════ */
 .areas-bg{background:var(--surface);}
-.areas-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+.areas-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
 .area-card{
   background:var(--card);border:1px solid var(--border);
-  border-radius:var(--radius);padding:24px 20px;
-  display:flex;flex-direction:column;gap:9px;
-  transition:transform .2s,border-color .2s;
+  border-radius:var(--radius);padding:22px 18px;
+  display:flex;flex-direction:column;gap:10px;
+  transition:transform .25s,border-color .2s;
 }
-.area-card:hover{transform:translateY(-3px);border-color:rgba(28,172,80,.4);}
-.area-icon{font-size:1.7rem;}
-.area-name{font-family:'Montserrat',sans-serif;font-size:.9rem;font-weight:800;color:var(--white);}
-.area-desc{font-size:.74rem;color:var(--muted);line-height:1.5;}
+.area-card:hover{transform:translateY(-4px);border-color:rgba(28,172,80,.4);}
+.area-card svg{width:28px;height:28px;fill:none;stroke:var(--green2);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
+.area-name{font-family:'Montserrat',sans-serif;font-size:.88rem;font-weight:800;color:var(--white);}
+.area-desc{font-size:.72rem;color:var(--muted);line-height:1.5;}
 
-/* SALARY BANNER */
+/* SALARY */
 .salary-banner{
-  max-width:860px;margin:60px auto 0;
-  background:linear-gradient(135deg,rgba(28,172,80,.12),rgba(13,122,53,.08));
-  border:1px solid rgba(28,172,80,.3);border-radius:24px;
-  padding:44px 52px;display:flex;align-items:center;
-  justify-content:space-between;gap:36px;
+  max-width:860px;margin:56px auto 0;
+  background:linear-gradient(135deg,rgba(28,172,80,.12),rgba(13,122,53,.07));
+  border:1px solid rgba(28,172,80,.28);border-radius:24px;
+  padding:40px 48px;display:flex;align-items:center;
+  justify-content:space-between;gap:32px;
 }
-.salary-label{font-size:.65rem;color:var(--muted);letter-spacing:.22em;text-transform:uppercase;font-family:'Montserrat',sans-serif;font-weight:700;}
-.salary-value{font-family:'Montserrat',sans-serif;font-size:3.2rem;font-weight:900;color:var(--green2);line-height:1.05;margin-top:6px;}
-.salary-sub{font-size:.78rem;color:#4a7a5a;margin-top:6px;}
-.salary-desc{font-size:1rem;color:var(--text);font-weight:600;line-height:1.6;max-width:320px;text-align:right;}
+.salary-label{font-size:.62rem;color:var(--muted);letter-spacing:.22em;text-transform:uppercase;font-family:'Montserrat',sans-serif;font-weight:700;}
+.salary-value{
+  font-family:'Montserrat',sans-serif;font-size:3rem;font-weight:900;
+  color:var(--green2);line-height:1.05;margin-top:4px;
+  text-shadow:0 0 40px rgba(34,216,96,.3);
+}
+.salary-sub{font-size:.76rem;color:#4a7a5a;margin-top:4px;}
+.salary-desc{font-size:.95rem;color:var(--text);font-weight:600;line-height:1.65;max-width:300px;text-align:right;}
 .salary-desc span{color:var(--green2);}
 
-/* ════════════ PROOF ════════════ */
-.proof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+/* ════════════ PROOF / TESTIMONIALS ════════════ */
+.proof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
 .proof-card{
   background:var(--surface);border:1px solid var(--border);
-  border-radius:20px;padding:32px 28px;
-  display:flex;flex-direction:column;gap:20px;
+  border-radius:20px;padding:30px 26px;
+  display:flex;flex-direction:column;gap:18px;
+  transition:transform .25s,border-color .2s;
 }
-.proof-stars{color:var(--orange);font-size:1rem;letter-spacing:.1em;}
-.proof-quote{font-size:.95rem;color:var(--text);line-height:1.7;font-style:italic;}
+.proof-card:hover{transform:translateY(-4px);border-color:rgba(28,172,80,.35);}
+.proof-stars{color:var(--orange);font-size:.95rem;letter-spacing:.08em;}
+.proof-quote{font-size:.92rem;color:var(--text);line-height:1.7;font-style:italic;position:relative;padding-top:12px;}
 .proof-quote::before{
-  content:'"';font-family:'Montserrat',sans-serif;font-size:3.5rem;font-weight:900;
-  color:var(--green);opacity:.35;display:block;line-height:.7;margin-bottom:10px;
+  content:'"';font-family:'Montserrat',sans-serif;font-size:3.2rem;font-weight:900;
+  color:var(--green);opacity:.3;position:absolute;top:-8px;left:-4px;line-height:1;
 }
 .proof-author{display:flex;align-items:center;gap:12px;}
 .proof-avatar{
-  width:44px;height:44px;
+  width:42px;height:42px;
   background:linear-gradient(135deg,var(--green-dark),var(--green));
   border-radius:50%;display:flex;align-items:center;justify-content:center;
-  font-family:'Montserrat',sans-serif;font-weight:900;font-size:1.1rem;color:#fff;flex-shrink:0;
+  font-family:'Montserrat',sans-serif;font-weight:900;font-size:1rem;color:#fff;flex-shrink:0;
 }
-.proof-name{font-family:'Montserrat',sans-serif;font-size:.88rem;font-weight:800;color:var(--white);}
-.proof-role{font-size:.74rem;color:var(--muted);}
+.proof-name{font-family:'Montserrat',sans-serif;font-size:.85rem;font-weight:800;color:var(--white);}
+.proof-role{font-size:.72rem;color:var(--muted);}
+
+/* IMAGE SECTION */
+.img-section{padding:90px 20px;position:relative;overflow:hidden;}
+.img-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center;}
+.img-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.img-frame{border-radius:18px;overflow:hidden;position:relative;}
+.img-frame img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s;}
+.img-frame:hover img{transform:scale(1.04);}
+.img-frame-tall{grid-row:span 2;}
+.img-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 50%,rgba(6,16,8,.8));
+}
+.img-tag{
+  position:absolute;bottom:12px;left:12px;right:12px;
+  font-family:'Montserrat',sans-serif;font-size:.68rem;font-weight:700;
+  color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.5);
+}
+.img-text{display:flex;flex-direction:column;gap:24px;}
 
 /* ════════════ CTA ════════════ */
 .cta-section{
-  padding:110px 24px;text-align:center;position:relative;overflow:hidden;
+  padding:100px 20px;text-align:center;position:relative;overflow:hidden;
 }
-.cta-section::before{
-  content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  width:1000px;height:1000px;
-  background:radial-gradient(circle,rgba(28,172,80,.07) 0%,transparent 60%);
+.cta-glow{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:800px;height:800px;
+  background:radial-gradient(circle,rgba(28,172,80,.08) 0%,transparent 60%);
   pointer-events:none;
 }
-.cta-inner{max-width:760px;margin:0 auto;position:relative;z-index:1;}
+.cta-inner{max-width:720px;margin:0 auto;position:relative;z-index:1;}
 .cta-title{
   font-family:'Montserrat',sans-serif;
-  font-size:clamp(2rem,5.5vw,3.2rem);font-weight:900;
-  color:var(--white);line-height:1.12;margin-bottom:20px;
+  font-size:clamp(1.9rem,5vw,3rem);font-weight:900;
+  color:var(--white);line-height:1.12;margin-bottom:18px;
 }
 .cta-title span{color:var(--green2);}
-.cta-sub{font-size:1.05rem;color:var(--muted);line-height:1.75;margin-bottom:44px;}
+.cta-sub{font-size:1rem;color:var(--muted);line-height:1.75;margin-bottom:40px;}
 .cta-sub strong{color:var(--text);}
-.cta-buttons{display:flex;flex-direction:column;align-items:center;gap:16px;}
-.cta-note{font-size:.82rem;color:#3a6a4a;}
+.cta-buttons{display:flex;flex-direction:column;align-items:center;gap:14px;}
+.cta-note{font-size:.8rem;color:#3a6a4a;}
 .cta-note a{color:var(--green);text-decoration:none;}
 
 /* ════════════ FOOTER ════════════ */
 footer{
-  background:var(--black);border-top:1px solid var(--border);padding:48px 24px;
+  background:var(--black);border-top:1px solid var(--border);padding:44px 20px;
 }
 .footer-inner{
   max-width:1100px;margin:0 auto;
-  display:flex;flex-direction:column;align-items:center;gap:20px;
+  display:flex;flex-direction:column;align-items:center;gap:18px;
 }
+.logo-svg-sm{height:30px;width:auto;}
 .footer-tagline{
   font-family:'Montserrat',sans-serif;
-  font-size:.72rem;color:var(--muted);letter-spacing:.18em;text-transform:uppercase;font-weight:700;
+  font-size:.7rem;color:var(--muted);letter-spacing:.18em;text-transform:uppercase;font-weight:700;
 }
-.footer-contact{display:flex;gap:36px;align-items:center;flex-wrap:wrap;justify-content:center;}
+.footer-contact{display:flex;gap:32px;align-items:center;flex-wrap:wrap;justify-content:center;}
 .footer-contact a{
-  color:var(--muted);text-decoration:none;font-size:.85rem;
+  color:var(--muted);text-decoration:none;font-size:.84rem;
   display:flex;align-items:center;gap:7px;transition:color .2s;
 }
 .footer-contact a:hover{color:var(--green2);}
-.footer-copy{font-size:.7rem;color:#2a4a32;margin-top:8px;}
+.footer-contact svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.footer-copy{font-size:.68rem;color:#2a4a32;margin-top:4px;}
+
+/* ════════════ FLOATING WPP ════════════ */
+.wpp-float{
+  position:fixed;bottom:24px;right:24px;z-index:300;
+  width:58px;height:58px;border-radius:50%;
+  background:var(--wpp);display:flex;align-items:center;justify-content:center;
+  box-shadow:0 8px 32px rgba(37,211,102,.5);
+  text-decoration:none;transition:transform .2s,box-shadow .2s;
+  animation:float 3s ease-in-out infinite;
+}
+.wpp-float:hover{transform:scale(1.1) translateY(-2px);box-shadow:0 14px 40px rgba(37,211,102,.65);}
+.wpp-float svg{width:30px;height:30px;fill:#fff;}
 
 /* ════════════ RESPONSIVE ════════════ */
 @media(max-width:900px){
-  .hero-inner{grid-template-columns:1fr;gap:44px;}
-  .video-box{aspect-ratio:16/9;max-height:280px;}
+  .hero-inner{grid-template-columns:1fr;gap:40px;}
+  .hero-left{order:2;}
+  .video-wrap{order:1;}
+  .video-box{aspect-ratio:16/9;max-height:260px;}
   .offer-strip-inner{grid-template-columns:repeat(2,1fr);}
   .proc-grid{grid-template-columns:repeat(2,1fr);}
   .areas-grid{grid-template-columns:repeat(2,1fr);}
   .proof-grid{grid-template-columns:1fr;}
-  .salary-banner{flex-direction:column;text-align:center;}
-  .salary-desc{text-align:center;}
+  .salary-banner{flex-direction:column;text-align:center;padding:32px 28px;}
+  .salary-desc{text-align:center;max-width:none;}
+  .img-grid{grid-template-columns:1fr;}
 }
 @media(max-width:560px){
+  .hero{padding:84px 16px 60px;}
   .proc-grid{grid-template-columns:1fr;}
   .areas-grid{grid-template-columns:1fr 1fr;}
-  .hero-ctas{flex-direction:column;align-items:flex-start;}
-  .footer-contact{flex-direction:column;gap:12px;}
+  .hero-ctas{flex-direction:column;align-items:stretch;}
+  .btn-orange,.btn-wpp{justify-content:center;}
+  .footer-contact{flex-direction:column;gap:10px;}
+  .salary-value{font-size:2.4rem;}
+  .img-col{grid-template-columns:1fr;}
+  .img-frame-tall{grid-row:span 1;}
 }
 </style>
 </head>
 <body>
 
+<!-- ════════ FLOATING WPP ════════ -->
+<a class="wpp-float" href="https://wa.me/5588997380077?text=Olá!%20Tenho%20interesse%20no%20Técnico%20de%20Enfermagem%20da%20Pro%20DNA!" target="_blank" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
 <!-- ════════ NAV ════════ -->
 <nav>
   <div class="nav-inner">
-    <!-- LOGO SVG REAL -->
     <a href="#">
       <svg class="logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1318 408">
-      <style>.st0{fill:none;stroke:#105A2C;stroke-width:2;}.st1{fill:#FFFFFF;}.st2{fill:#1CAC50;}</style>
+        <style>.st0{fill:none;stroke:#105A2C;stroke-width:2;}.st1{fill:#FFFFFF;}.st2{fill:#1CAC50;}</style>
         <g stroke-width="2" fill="none" stroke-linecap="butt">
           <path stroke="#105a2c" d="M 651.91 78.80 Q 667.11 85.89 681.74 94.39"/>
           <path stroke="#105a2c" d="M 671.38 116.15 C 661.64 110.32 650.90 106.39 640.21 102.64 A 0.24 0.19 38.0 0 0 640.08 102.64 Q 639.98 102.68 639.85 102.77"/>
@@ -389,21 +476,37 @@ footer{
         <path fill="#1cac50" d="M 772.20 100.75 Q 793.62 100.68 820.52 100.81 C 839.78 100.89 859.15 102.86 877.09 109.81 C 907.10 121.44 920.48 146.65 922.33 177.73 Q 922.93 187.75 922.35 196.05 C 920.33 225.21 907.32 248.89 880.52 262.07 C 863.48 270.45 843.36 273.64 824.49 273.70 Q 796.61 273.80 771.79 273.73 A 0.32 0.32 0.0 0 1 771.48 273.41 L 771.48 101.47 A 0.72 0.72 0.0 0 1 772.20 100.75 Z M 815.74 187.02 Q 815.73 241.52 815.77 243.48 A 0.55 0.55 0.0 0 0 816.27 244.02 Q 826.15 244.87 837.31 242.78 C 864.62 237.68 875.60 216.59 875.99 190.75 Q 876.00 190.18 876.00 187.04 Q 876.00 183.89 875.99 183.32 C 875.61 157.48 864.64 136.39 837.34 131.27 Q 826.18 129.18 816.30 130.02 A 0.55 0.55 0.0 0 0 815.80 130.56 Q 815.76 132.53 815.74 187.02 Z"/>
         <path fill="#1cac50" d="M 1045.65 192.63 A 0.06 0.05 27.7 0 0 1045.75 192.60 L 1045.75 101.23 A 0.48 0.48 0.0 0 1 1046.23 100.75 L 1091.18 100.75 A 0.32 0.31 -0.0 0 1 1091.50 101.06 L 1091.50 273.14 A 0.61 0.61 0.0 0 1 1090.89 273.75 L 1048.73 273.75 A 1.14 1.12 72.1 0 1 1047.81 273.27 L 981.47 178.71 A 0.26 0.26 0.0 0 0 981.00 178.86 L 981.00 273.14 A 0.61 0.61 0.0 0 1 980.39 273.75 L 941.65 273.75 A 0.60 0.60 0.0 0 1 941.05 273.15 L 942.63 101.53 A 0.78 0.78 0.0 0 1 943.41 100.75 L 980.83 100.75 A 0.69 0.67 -16.9 0 1 981.39 101.04 L 1045.65 192.63 Z"/>
         <path fill="#1cac50" d="M 1172.41 100.75 L 1218.64 100.75 A 0.38 0.38 0.0 0 1 1218.99 100.99 L 1284.92 273.23 A 0.38 0.38 0.0 0 1 1284.57 273.75 L 1239.25 273.75 A 0.38 0.38 0.0 0 1 1238.90 273.51 L 1227.70 244.24 A 0.38 0.38 0.0 0 0 1227.35 244.00 L 1164.64 244.00 A 0.38 0.38 0.0 0 0 1164.29 244.24 L 1152.93 273.51 A 0.38 0.38 0.0 0 1 1152.58 273.75 L 1110.40 273.75 A 0.38 0.38 0.0 0 1 1110.04 273.24 L 1172.05 101.00 A 0.38 0.38 0.0 0 1 1172.41 100.75 Z M 1196.02 157.04 A 0.34 0.34 0.0 0 0 1195.39 157.05 L 1178.29 204.54 A 0.34 0.34 0.0 0 0 1178.61 205.00 L 1214.70 205.00 A 0.34 0.34 0.0 0 0 1215.01 204.53 L 1196.02 157.04 Z"/>
-        <path fill="#1cac50" d="M 671.38 116.15 C 662.36 130.70 648.18 143.85 634.59 153.09 Q 623.34 160.74 612.27 168.28 Q 594.63 180.30 578.32 195.10 A 0.23 0.23 0.0 0 0 578.48 195.50 L 688.14 195.50 A 1.11 1.10 19.3 0 0 689.00 195.09 Q 695.73 186.76 699.46 177.14 A 0.29 0.28 -79.3 0 0 699.20 176.75 L 655.96 176.75 A 0.69 0.68 9.5 0 0 655.31 177.21 Q 654.22 180.21 653.41 180.96 Q 649.40 184.64 644.84 182.85 C 635.78 179.30 640.70 165.21 650.36 168.58 Q 654.21 169.92 655.26 174.39 A 0.47 0.46 -6.1 0 0 655.72 174.75 L 699.85 174.75 A 0.67 0.67 0.0 0 0 700.51 174.17 Q 700.64 173.13 700.91 172.70 A 0.43 0.42 48.7 0 1 701.65 172.75 Q 706.90 183.80 708.10 191.00 Q 711.10 208.99 701.49 224.83 Q 694.02 237.14 682.76 247.53 C 667.74 261.39 652.70 271.86 634.67 283.42 Q 620.90 292.24 610.26 305.15 Q 610.57 305.49 609.83 305.17 Q 594.32 298.36 580.08 288.88 Q 585.91 281.44 592.40 275.15 C 602.11 265.75 611.07 258.95 623.58 250.50 C 640.28 239.22 656.38 227.34 670.56 214.58 A 0.33 0.33 0.0 0 0 670.34 214.00 L 560.90 214.00 A 0.40 0.39 -69.1 0 0 560.60 214.14 Q 554.61 221.73 551.08 230.16 A 0.43 0.43 0.0 0 0 551.48 230.75 L 594.77 230.75 A 0.71 0.70 6.7 0 0 595.46 230.21 Q 596.59 225.61 600.96 224.47 C 608.97 222.39 614.16 232.66 607.69 237.88 C 603.18 241.52 596.91 239.10 595.38 233.29 A 0.74 0.72 82.1 0 0 594.68 232.75 L 551.01 232.75 A 0.89 0.88 5.1 0 0 550.14 233.47 Q 549.99 234.31 549.96 234.34 A 0.43 0.43 0.0 0 1 549.29 234.19 Q 544.22 223.56 542.71 216.24 C 538.84 197.43 547.74 180.68 560.59 167.59 Q 576.28 151.60 596.63 138.12 Q 610.20 129.14 615.80 125.55 Q 628.77 117.23 639.85 102.77 Q 639.98 102.68 640.08 102.64 A 0.24 0.19 38.0 0 1 640.21 102.64 C 650.90 106.39 661.64 110.32 671.38 116.15 Z"/>
+        <path fill="#1cac50" d="M 671.38 116.15 C 662.36 130.70 648.18 143.85 634.59 153.09 Q 623.34 160.74 612.27 168.28 Q 594.63 180.30 578.32 195.10 A 0.23 0.23 0.0 0 0 578.48 195.50 L 688.14 195.50 A 1.11 1.10 19.3 0 0 689.00 195.09 Q 695.73 186.76 699.46 177.14 A 0.29 0.28 -79.3 0 0 699.20 176.75 L 655.96 176.75 A 0.69 0.68 9.5 0 0 655.31 177.21 Q 654.22 180.21 653.41 180.96 Q 649.40 184.64 644.84 182.85 C 635.78 179.30 640.70 165.21 650.36 168.58 Q 654.21 169.92 655.26 174.39 A 0.47 0.46 -6.1 0 0 655.72 174.75 L 699.85 174.75 A 0.67 0.67 0.0 0 0 700.51 174.17 Q 700.64 173.13 700.91 172.70 A 0.43 0.42 48.7 0 1 701.65 172.75 Q 706.90 183.80 708.10 191.00 Q 711.10 208.99 701.49 224.83 Q 694.02 237.14 682.76 247.53 C 667.74 261.39 652.70 271.86 634.67 283.42 Q 620.90 292.24 610.26 305.15 Q 594.32 298.36 580.08 288.88 Q 585.91 281.44 592.40 275.15 C 602.11 265.75 611.07 258.95 623.58 250.50 C 640.28 239.22 656.38 227.34 670.56 214.58 A 0.33 0.33 0.0 0 0 670.34 214.00 L 560.90 214.00 A 0.40 0.39 -69.1 0 0 560.60 214.14 Q 554.61 221.73 551.08 230.16 A 0.43 0.43 0.0 0 0 551.48 230.75 L 594.77 230.75 A 0.71 0.70 6.7 0 0 595.46 230.21 Q 596.59 225.61 600.96 224.47 C 608.97 222.39 614.16 232.66 607.69 237.88 C 603.18 241.52 596.91 239.10 595.38 233.29 A 0.74 0.72 82.1 0 0 594.68 232.75 L 551.01 232.75 A 0.89 0.88 5.1 0 0 550.14 233.47 Q 549.99 234.31 549.96 234.34 A 0.43 0.43 0.0 0 1 549.29 234.19 Q 544.22 223.56 542.71 216.24 C 538.84 197.43 547.74 180.68 560.59 167.59 Q 576.28 151.60 596.63 138.12 Q 610.20 129.14 615.80 125.55 Q 628.77 117.23 639.85 102.77 C 650.90 106.39 661.64 110.32 671.38 116.15 Z"/>
         <ellipse fill="#1cac50" cx="0" cy="0" transform="translate(670.05,149.34) rotate(90)" rx="8.81" ry="6.53"/>
         <path class="st1" d="M 580.08 288.88 Q 594.32 298.36 609.83 305.17 Q 610.57 305.49 610.26 305.15 Q 610.54 305.78 610.85 305.91 Q 634.59 316.09 655.94 329.55 Q 668.57 337.51 678.54 347.95 C 688.67 358.56 693.82 372.00 689.95 386.76 Q 687.02 397.92 679.92 407.64 A 0.27 0.27 0.0 0 1 679.44 407.51 C 678.57 399.03 671.62 389.08 665.63 382.36 C 646.94 361.46 620.83 346.11 595.26 334.46 Q 579.78 327.03 564.74 318.19 C 549.21 309.17 533.86 298.10 522.74 284.03 Q 502.93 258.95 513.35 228.54 Q 518.11 214.64 526.06 203.08 A 0.18 0.18 0.0 0 1 526.38 203.18 Q 526.36 222.32 534.81 239.50 Q 542.22 254.58 553.33 266.42 Q 565.40 279.29 580.08 288.88 Z"/>
         <ellipse fill="#1cac50" cx="0" cy="0" transform="translate(580.72,261.19) rotate(90)" rx="8.82" ry="6.53"/>
         <path fill="#1cac50" d="M 595.26 334.46 Q 592.36 345.86 592.53 355.25 Q 592.98 380.95 604.95 403.61 A 0.15 0.14 4.5 0 1 604.73 403.79 Q 586.94 390.98 574.48 372.64 C 563.44 356.38 559.51 337.37 564.74 318.19 Q 579.78 327.03 595.26 334.46 Z"/>
       </svg>
     </a>
-    <a href="https://wa.me/5588997380077?text=Olá!%20Tenho%20interesse%20no%20curso%20Técnico%20de%20Enfermagem%20da%20Pro%20DNA!" class="nav-cta" target="_blank">
-      📲 Quero me matricular
+    <a href="https://wa.me/5588997380077?text=Olá!%20Quero%20me%20matricular%20no%20Técnico%20de%20Enfermagem%20da%20Pro%20DNA!" class="nav-cta" target="_blank">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+      Quero me matricular
     </a>
   </div>
 </nav>
 
 <!-- ════════ HERO ════════ -->
 <section class="hero">
+  <div class="hero-glow1"></div>
+  <div class="hero-glow2"></div>
+  <!-- DNA watermark background -->
+  <svg class="dna-hero-bg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 408" aria-hidden="true">
+    <g transform="translate(-510,0)">
+      <path fill="#1cac50" d="M 671.38 116.15 C 662.36 130.70 648.18 143.85 634.59 153.09 Q 623.34 160.74 612.27 168.28 Q 594.63 180.30 578.32 195.10 A 0.23 0.23 0.0 0 0 578.48 195.50 L 688.14 195.50 A 1.11 1.10 19.3 0 0 689.00 195.09 Q 695.73 186.76 699.46 177.14 A 0.29 0.28 -79.3 0 0 699.20 176.75 L 655.96 176.75 A 0.69 0.68 9.5 0 0 655.31 177.21 Q 654.22 180.21 653.41 180.96 Q 649.40 184.64 644.84 182.85 C 635.78 179.30 640.70 165.21 650.36 168.58 Q 654.21 169.92 655.26 174.39 A 0.47 0.46 -6.1 0 0 655.72 174.75 L 699.85 174.75 A 0.67 0.67 0.0 0 0 700.51 174.17 Q 700.64 173.13 700.91 172.70 A 0.43 0.42 48.7 0 1 701.65 172.75 Q 706.90 183.80 708.10 191.00 Q 711.10 208.99 701.49 224.83 Q 694.02 237.14 682.76 247.53 C 667.74 261.39 652.70 271.86 634.67 283.42 Q 620.90 292.24 610.26 305.15 Q 594.32 298.36 580.08 288.88 Q 585.91 281.44 592.40 275.15 C 602.11 265.75 611.07 258.95 623.58 250.50 C 640.28 239.22 656.38 227.34 670.56 214.58 A 0.33 0.33 0.0 0 0 670.34 214.00 L 560.90 214.00 A 0.40 0.39 -69.1 0 0 560.60 214.14 Q 554.61 221.73 551.08 230.16 A 0.43 0.43 0.0 0 0 551.48 230.75 L 594.77 230.75 A 0.71 0.70 6.7 0 0 595.46 230.21 Q 596.59 225.61 600.96 224.47 C 608.97 222.39 614.16 232.66 607.69 237.88 C 603.18 241.52 596.91 239.10 595.38 233.29 A 0.74 0.72 82.1 0 0 594.68 232.75 L 551.01 232.75 A 0.89 0.88 5.1 0 0 550.14 233.47 Q 549.99 234.31 549.96 234.34 A 0.43 0.43 0.0 0 1 549.29 234.19 Q 544.22 223.56 542.71 216.24 C 538.84 197.43 547.74 180.68 560.59 167.59 Q 576.28 151.60 596.63 138.12 Q 610.20 129.14 615.80 125.55 Q 628.77 117.23 639.85 102.77 C 650.90 106.39 661.64 110.32 671.38 116.15 Z"/>
+      <path fill="#ffffff" d="M 651.91 78.80 Q 667.11 85.89 681.74 94.39 Q 695.67 102.70 708.10 113.39 Q 720.96 124.44 728.80 137.90 Q 740.15 157.41 736.56 178.39 C 734.51 190.37 728.73 201.87 721.17 211.61 A 0.15 0.14 -23.6 0 1 720.91 211.51 Q 722.19 199.77 720.46 187.46 C 716.12 156.74 698.63 131.55 671.38 116.15 C 661.64 110.32 650.90 106.39 640.21 102.64 A 0.24 0.19 38.0 0 0 640.08 102.64 Q 639.98 102.68 639.85 102.77 Q 639.68 102.30 639.28 102.16 Q 615.47 93.87 593.50 82.76 Q 584.76 78.33 576.06 71.75 C 561.73 60.90 554.32 47.00 558.80 28.99 Q 562.13 15.61 571.93 0.78 A 0.23 0.23 0.0 0 1 572.35 0.87 Q 574.29 13.68 581.37 23.91 Q 592.43 39.92 608.45 52.07 Q 628.83 67.54 651.91 78.80 Z"/>
+      <path fill="#1cac50" d="M 681.74 94.39 Q 667.11 85.89 651.91 78.80 C 658.86 54.65 654.26 28.98 642.82 7.13 A 0.20 0.20 0.0 0 1 643.11 6.88 C 670.57 27.42 692.47 58.36 681.74 94.39 Z"/>
+      <path fill="#ffffff" d="M 580.08 288.88 Q 594.32 298.36 609.83 305.17 Q 610.57 305.49 610.26 305.15 Q 610.54 305.78 610.85 305.91 Q 634.59 316.09 655.94 329.55 Q 668.57 337.51 678.54 347.95 C 688.67 358.56 693.82 372.00 689.95 386.76 Q 687.02 397.92 679.92 407.64 A 0.27 0.27 0.0 0 1 679.44 407.51 C 678.57 399.03 671.62 389.08 665.63 382.36 C 646.94 361.46 620.83 346.11 595.26 334.46 Q 579.78 327.03 564.74 318.19 C 549.21 309.17 533.86 298.10 522.74 284.03 Q 502.93 258.95 513.35 228.54 Q 518.11 214.64 526.06 203.08 A 0.18 0.18 0.0 0 1 526.38 203.18 Q 526.36 222.32 534.81 239.50 Q 542.22 254.58 553.33 266.42 Q 565.40 279.29 580.08 288.88 Z"/>
+      <path fill="#1cac50" d="M 595.26 334.46 Q 592.36 345.86 592.53 355.25 Q 592.98 380.95 604.95 403.61 A 0.15 0.14 4.5 0 1 604.73 403.79 Q 586.94 390.98 574.48 372.64 C 563.44 356.38 559.51 337.37 564.74 318.19 Q 579.78 327.03 595.26 334.46 Z"/>
+      <ellipse fill="#1cac50" cx="0" cy="0" transform="translate(670.05,149.34) rotate(90)" rx="8.81" ry="6.53"/>
+      <ellipse fill="#1cac50" cx="0" cy="0" transform="translate(580.72,261.19) rotate(90)" rx="8.82" ry="6.53"/>
+    </g>
+  </svg>
+
   <div class="hero-inner">
     <div class="hero-left">
       <div class="hero-eyebrow">
@@ -416,29 +519,44 @@ footer{
       <p class="hero-desc">
         Curso <strong>Técnico de Enfermagem</strong> presencial em 2 anos.
         Atuação em UTI, cirurgia, home care, hemodiálise, concursos públicos e muito mais.
-        Piso salarial de <strong style="color:var(--green2);">R$ 3.325,00</strong> — e vagas perto de você.
+        Piso salarial de <strong style="color:var(--green2);">R$ 3.325,00</strong> — com vagas perto de você.
       </p>
       <div class="hero-chips">
-        <span class="chip"><span class="chip-icon">🎓</span>Inscrição Grátis</span>
-        <span class="chip"><span class="chip-icon">📋</span>Matrícula Grátis</span>
-        <span class="chip"><span class="chip-icon">👕</span>Fardamento Grátis</span>
-        <span class="chip"><span class="chip-icon">🔒</span>Preço Congelado</span>
+        <span class="chip">
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          Inscrição Grátis
+        </span>
+        <span class="chip">
+          <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+          Matrícula Grátis
+        </span>
+        <span class="chip">
+          <svg viewBox="0 0 24 24"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 002-2V10h2.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg>
+          Fardamento Grátis
+        </span>
+        <span class="chip">
+          <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          Preço Congelado
+        </span>
       </div>
       <div class="hero-ctas">
-        <a href="https://wa.me/5588997380077?text=Olá!%20Quero%20garantir%20minha%20vaga%20no%20curso%20Técnico%20de%20Enfermagem%20da%20Pro%20DNA!" class="btn-orange" target="_blank">
-          ➜ &nbsp;Garantir minha vaga agora
+        <a href="https://wa.me/5588997380077?text=Olá!%20Quero%20garantir%20minha%20vaga%20no%20Técnico%20de%20Enfermagem%20da%20Pro%20DNA!" class="btn-orange" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          Garantir minha vaga agora
         </a>
       </div>
     </div>
 
-    <!-- VIDEO PLACEHOLDER -->
-    <div>
+    <div class="video-wrap">
       <div class="video-box">
         <div class="video-play-btn">
           <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
         </div>
         <span class="video-placeholder-text">Assista ao vídeo</span>
-        <span class="video-badge">🎬 <span>Cole aqui o link do seu vídeo</span></span>
+        <div class="video-badge">
+          <svg style="display:inline;width:13px;height:13px;fill:#22d860;vertical-align:middle;margin-right:4px" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path fill="#fff" d="M10 8l6 4-6 4V8z"/></svg>
+          <span>Cole aqui o link do seu vídeo</span>
+        </div>
       </div>
     </div>
   </div>
@@ -447,26 +565,30 @@ footer{
 <!-- ════════ OFFER STRIP ════════ -->
 <div class="offer-strip">
   <div class="offer-strip-inner">
-    <div class="offer-item">
-      <div class="offer-icon">🎓</div>
+    <div class="offer-item reveal delay-1">
+      <!-- graduation cap -->
+      <svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5-10-5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
       <div class="offer-label">Inscrição</div>
       <div class="offer-value">GRÁTIS</div>
       <div class="offer-desc">Sem nenhum custo pra começar</div>
     </div>
-    <div class="offer-item">
-      <div class="offer-icon">📋</div>
+    <div class="offer-item reveal delay-2">
+      <!-- clipboard check -->
+      <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12l2 2 4-4"/></svg>
       <div class="offer-label">Matrícula</div>
       <div class="offer-value">GRÁTIS</div>
       <div class="offer-desc">Zero taxa de entrada</div>
     </div>
-    <div class="offer-item">
-      <div class="offer-icon">👕</div>
+    <div class="offer-item reveal delay-3">
+      <!-- shirt -->
+      <svg viewBox="0 0 24 24"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 002-2V10h2.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg>
       <div class="offer-label">Fardamento</div>
       <div class="offer-value">GRÁTIS</div>
       <div class="offer-desc">Uniforme completo incluso</div>
     </div>
-    <div class="offer-item">
-      <div class="offer-icon">🔒</div>
+    <div class="offer-item reveal delay-4">
+      <!-- lock -->
+      <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
       <div class="offer-label">Mensalidade</div>
       <div class="offer-value">Congelada</div>
       <div class="offer-desc">Preço fixo do início ao fim</div>
@@ -474,42 +596,112 @@ footer{
   </div>
 </div>
 
-<!-- ════════ O QUE O TÉCNICO FAZ ════════ -->
-<section class="section">
+<!-- ════════ IMAGENS COM CONTEXTO ════════ -->
+<section class="img-section">
+  <!-- DNA watermark -->
+  <svg style="position:absolute;right:-60px;bottom:-40px;width:300px;opacity:.04;pointer-events:none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 408" aria-hidden="true">
+    <g transform="translate(-510,0)">
+      <path fill="#1cac50" d="M 671.38 116.15 C 662.36 130.70 648.18 143.85 634.59 153.09 Q 623.34 160.74 612.27 168.28 Q 594.63 180.30 578.32 195.10 L 688.14 195.50 Q 695.73 186.76 699.46 177.14 L 655.96 176.75 Q 654.22 180.21 653.41 180.96 Q 649.40 184.64 644.84 182.85 C 635.78 179.30 640.70 165.21 650.36 168.58 Q 655.26 174.39 655.72 174.75 L 699.85 174.75 Q 700.64 173.13 700.91 172.70 Q 706.90 183.80 708.10 191.00 Q 711.10 208.99 701.49 224.83 Q 694.02 237.14 682.76 247.53 C 667.74 261.39 652.70 271.86 634.67 283.42 Q 620.90 292.24 610.26 305.15 Q 594.32 298.36 580.08 288.88 Q 592.40 275.15 623.58 250.50 C 640.28 239.22 656.38 227.34 670.56 214.58 L 560.90 214.00 Q 554.61 221.73 551.08 230.16 L 594.77 230.75 Q 596.59 225.61 600.96 224.47 C 608.97 222.39 614.16 232.66 607.69 237.88 C 595.38 233.29 551.01 232.75 550.14 233.47 Q 544.22 223.56 542.71 216.24 C 538.84 197.43 547.74 180.68 560.59 167.59 Q 576.28 151.60 596.63 138.12 Q 615.80 125.55 628.77 117.23 Q 639.85 102.77 671.38 116.15 Z"/>
+    </g>
+  </svg>
   <div class="container">
-    <div class="section-header">
+    <div class="img-grid">
+      <div class="img-col reveal-left">
+        <div class="img-frame img-frame-tall" style="height:280px;">
+          <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=500&auto=format&fit=crop&q=80" alt="Enfermeira em atuação" loading="lazy"/>
+          <div class="img-overlay"></div>
+          <div class="img-tag">Profissional em atuação</div>
+        </div>
+        <div class="img-frame" style="height:175px;">
+          <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=500&auto=format&fit=crop&q=80" alt="Ambiente hospitalar" loading="lazy"/>
+          <div class="img-overlay"></div>
+          <div class="img-tag">Ambiente hospitalar</div>
+        </div>
+        <div class="img-frame" style="height:175px;">
+          <img src="https://images.unsplash.com/photo-1584820927498-cad076eee68c?w=500&auto=format&fit=crop&q=80" alt="Cuidado ao paciente" loading="lazy"/>
+          <div class="img-overlay"></div>
+          <div class="img-tag">Cuidado ao paciente</div>
+        </div>
+      </div>
+      <div class="img-text reveal-right">
+        <span class="tag">Formação presencial</span>
+        <h2 class="section-title" style="margin-top:14px;">
+          Prepare-se para o<br/><span>mercado real.</span>
+        </h2>
+        <p class="section-sub">
+          O curso é 100% presencial porque a prática faz diferença. Você aprende em laboratório, com simulações reais, ao lado de professores que atuam na área — como eu, enfermeira e professora do curso.
+        </p>
+        <p class="section-sub" style="margin-top:0">
+          Já vi alunos que <strong style="color:var(--white)">nem tinham se formado ainda</strong> passando em concurso público. Isso acontece quando a formação é séria.
+        </p>
+        <a href="https://wa.me/5588997380077?text=Olá!%20Quero%20saber%20mais%20sobre%20o%20curso!" class="btn-orange" target="_blank" style="align-self:flex-start;margin-top:8px;">
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          Quero saber mais
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ O QUE O TÉCNICO FAZ ════════ -->
+<section class="section" style="background:var(--surface);position:relative;overflow:hidden;">
+  <svg style="position:absolute;left:-80px;top:50%;transform:translateY(-50%);width:280px;opacity:.05;pointer-events:none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 408" aria-hidden="true">
+    <g transform="translate(-510,0)">
+      <path fill="#1cac50" d="M 671.38 116.15 C 662.36 130.70 648.18 143.85 634.59 153.09 Q 612.27 168.28 578.32 195.10 L 688.14 195.50 Q 699.46 177.14 655.96 176.75 Q 654.22 180.21 644.84 182.85 C 635.78 179.30 650.36 168.58 655.26 174.39 L 699.85 174.75 Q 708.10 191.00 701.49 224.83 Q 682.76 247.53 634.67 283.42 Q 610.26 305.15 580.08 288.88 Q 623.58 250.50 670.56 214.58 L 560.90 214.00 Q 551.08 230.16 594.77 230.75 Q 596.59 225.61 607.69 237.88 C 595.38 233.29 542.71 216.24 560.59 167.59 Q 596.63 138.12 639.85 102.77 C 661.64 110.32 671.38 116.15 671.38 116.15 Z"/>
+    </g>
+  </svg>
+  <div class="container">
+    <div class="section-header reveal">
       <span class="tag">O que o técnico faz</span>
       <h2 class="section-title" style="margin-top:16px;">Muito além de<br/><span>aplicar injeção.</span></h2>
       <p class="section-sub">O Técnico de Enfermagem é o profissional mais presente na vida do paciente — com competências técnicas que fazem diferença real no cuidado.</p>
     </div>
     <div class="proc-grid">
-      <div class="proc-card">
-        <div class="proc-card-icon">💉</div>
+      <div class="proc-card reveal delay-1">
+        <div class="icon-wrap">
+          <!-- syringe -->
+          <svg viewBox="0 0 24 24"><path d="M18 2l4 4-4 4"/><path d="M22 6H12"/><path d="M6 12l-4 4 4 4"/><path d="M2 16h10"/><line x1="7" y1="7" x2="17" y2="17"/></svg>
+        </div>
         <div class="proc-card-title">Administração de Medicamentos</div>
         <div class="proc-card-desc">Aplica medicamentos por via intravenosa, intramuscular e subcutânea com precisão e segurança clínica.</div>
       </div>
-      <div class="proc-card">
-        <div class="proc-card-icon">🩹</div>
+      <div class="proc-card reveal delay-2">
+        <div class="icon-wrap">
+          <!-- bandage/cross -->
+          <svg viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/><path d="M12 8v8M8 12h8"/></svg>
+        </div>
         <div class="proc-card-title">Curativos e Manejo de Feridas</div>
         <div class="proc-card-desc">Realiza coberturas complexas e acompanha a evolução de feridas cirúrgicas e crônicas.</div>
       </div>
-      <div class="proc-card">
-        <div class="proc-card-icon">📟</div>
+      <div class="proc-card reveal delay-3">
+        <div class="icon-wrap">
+          <!-- monitor/ecg -->
+          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M5 10l3-3 3 3 3-6 3 3"/></svg>
+        </div>
         <div class="proc-card-title">Monitorização do Paciente</div>
         <div class="proc-card-desc">Controla sinais vitais, realiza ECG e registra balanço hídrico com rigor clínico.</div>
       </div>
-      <div class="proc-card">
-        <div class="proc-card-icon">🔬</div>
+      <div class="proc-card reveal delay-1">
+        <div class="icon-wrap">
+          <!-- droplets/IV -->
+          <svg viewBox="0 0 24 24"><path d="M12 2l.5 1.5M12 2l-.5 1.5"/><path d="M7 7c0-2.8 2.2-5 5-5s5 2.2 5 5c0 4-5 11-5 11S7 11 7 7z"/><circle cx="12" cy="7" r="1.5"/></svg>
+        </div>
         <div class="proc-card-title">Sondas e Soroterapia</div>
         <div class="proc-card-desc">Instala e monitora sondas vesicais, nasogástricas, cateteres e soroterapia.</div>
       </div>
-      <div class="proc-card">
-        <div class="proc-card-icon">🫁</div>
+      <div class="proc-card reveal delay-2">
+        <div class="icon-wrap">
+          <!-- lungs/wind -->
+          <svg viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 8c0 0-1 1-1 3s1 4 4 5 4-1 4-3V9"/><path d="M19 8c0 0 1 1 1 3s-1 4-4 5-4-1-4-3V9"/></svg>
+        </div>
         <div class="proc-card-title">Suporte Respiratório</div>
         <div class="proc-card-desc">Atua em oxigenoterapia, aspiração de vias aéreas e suporte a pacientes em estado crítico.</div>
       </div>
-      <div class="proc-card">
-        <div class="proc-card-icon">🩸</div>
+      <div class="proc-card reveal delay-3">
+        <div class="icon-wrap">
+          <!-- vein/blood drop -->
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2z"/><path d="M8 12h8M12 8v8"/></svg>
+        </div>
         <div class="proc-card-title">Punção Venosa e Coletas</div>
         <div class="proc-card-desc">Realiza punções venosas e coletas de materiais para exames laboratoriais com técnica.</div>
       </div>
@@ -518,25 +710,64 @@ footer{
 </section>
 
 <!-- ════════ ÁREAS ════════ -->
-<section class="section areas-bg">
+<section class="section areas-bg" style="background:var(--bg2);position:relative;overflow:hidden;">
   <div class="container">
-    <div class="section-header">
+    <div class="section-header reveal">
       <span class="tag">Onde você pode trabalhar</span>
       <h2 class="section-title" style="margin-top:16px;">Uma formação.<br/><span>Múltiplas carreiras.</span></h2>
-      <p class="section-sub">O Técnico de Enfermagem atua em praticamente todos os ambientes de saúde — com estabilidade, propósito e salário.</p>
+      <p class="section-sub">O Técnico de Enfermagem atua em praticamente todos os ambientes de saúde — com estabilidade, propósito e salário garantido.</p>
     </div>
     <div class="areas-grid">
-      <div class="area-card"><div class="area-icon">🏥</div><div class="area-name">UTI e Centro Cirúrgico</div><div class="area-desc">Cuidado intensivo e suporte em procedimentos cirúrgicos complexos.</div></div>
-      <div class="area-card"><div class="area-icon">🚑</div><div class="area-name">SAMU e Emergências</div><div class="area-desc">Atendimento de urgência pré-hospitalar e em prontos-socorros.</div></div>
-      <div class="area-card"><div class="area-icon">🏠</div><div class="area-name">Home Care</div><div class="area-desc">Assistência domiciliar humanizada a pacientes em recuperação.</div></div>
-      <div class="area-card"><div class="area-icon">💉</div><div class="area-name">Hemodiálise e Oncologia</div><div class="area-desc">Cuidados especializados em tratamentos de alta complexidade.</div></div>
-      <div class="area-card"><div class="area-icon">👶</div><div class="area-name">Neonatologia e Pediatria</div><div class="area-desc">Cuidado com recém-nascidos e crianças em ambiente hospitalar.</div></div>
-      <div class="area-card"><div class="area-icon">🧴</div><div class="area-name">Clínicas Estéticas</div><div class="area-desc">Procedimentos estéticos com mercado em crescimento acelerado.</div></div>
-      <div class="area-card"><div class="area-icon">📋</div><div class="area-name">Concursos Públicos</div><div class="area-desc">Vagas municipais, estaduais e federais com estabilidade e benefícios.</div></div>
-      <div class="area-card"><div class="area-icon">🏢</div><div class="area-name">Medicina do Trabalho</div><div class="area-desc">Saúde ocupacional em empresas, indústrias e órgãos públicos.</div></div>
+      <div class="area-card reveal delay-1">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+        <div class="area-name">UTI e Centro Cirúrgico</div>
+        <div class="area-desc">Cuidado intensivo e suporte em procedimentos cirúrgicos complexos.</div>
+      </div>
+      <div class="area-card reveal delay-2">
+        <!-- ambulance -->
+        <svg viewBox="0 0 24 24"><path d="M10 17H4a2 2 0 01-2-2V5a2 2 0 012-2h16a2 2 0 012 2v3"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="17" r="3"/><path d="M13 17h1"/><path d="M15 11h6l2 6H13v-6z"/><path d="M9 9v6M6 12h6"/></svg>
+        <div class="area-name">SAMU e Emergências</div>
+        <div class="area-desc">Atendimento de urgência pré-hospitalar e em prontos-socorros.</div>
+      </div>
+      <div class="area-card reveal delay-3">
+        <!-- home -->
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+        <div class="area-name">Home Care</div>
+        <div class="area-desc">Assistência domiciliar humanizada a pacientes em recuperação.</div>
+      </div>
+      <div class="area-card reveal delay-4">
+        <!-- hemodialysis/drops -->
+        <svg viewBox="0 0 24 24"><path d="M12 2c0 0-7 6.5-7 11a7 7 0 0014 0c0-4.5-7-11-7-11z"/></svg>
+        <div class="area-name">Hemodiálise e Oncologia</div>
+        <div class="area-desc">Cuidados especializados em tratamentos de alta complexidade.</div>
+      </div>
+      <div class="area-card reveal delay-1">
+        <!-- baby -->
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M5 21v-2a7 7 0 0114 0v2"/></svg>
+        <div class="area-name">Neonatologia e Pediatria</div>
+        <div class="area-desc">Cuidado com recém-nascidos e crianças em ambiente hospitalar.</div>
+      </div>
+      <div class="area-card reveal delay-2">
+        <!-- sparkle/star -->
+        <svg viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+        <div class="area-name">Clínicas Estéticas</div>
+        <div class="area-desc">Procedimentos estéticos com mercado em crescimento acelerado.</div>
+      </div>
+      <div class="area-card reveal delay-3">
+        <!-- badge/award -->
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+        <div class="area-name">Concursos Públicos</div>
+        <div class="area-desc">Vagas municipais, estaduais e federais com estabilidade e benefícios.</div>
+      </div>
+      <div class="area-card reveal delay-4">
+        <!-- building -->
+        <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="12" y1="12" x2="12" y2="12"/></svg>
+        <div class="area-name">Medicina do Trabalho</div>
+        <div class="area-desc">Saúde ocupacional em empresas, indústrias e órgãos públicos.</div>
+      </div>
     </div>
 
-    <div class="salary-banner">
+    <div class="salary-banner reveal">
       <div>
         <div class="salary-label">Piso Salarial Nacional</div>
         <div class="salary-value">R$ 3.325</div>
@@ -544,21 +775,28 @@ footer{
       </div>
       <div class="salary-desc">
         O mercado está <span>contratando o ano inteiro.</span><br/>
-        Vagas disponíveis perto de você com carteira assinada desde o primeiro emprego.
+        Vagas disponíveis perto de você, com carteira assinada desde o primeiro emprego.
       </div>
     </div>
   </div>
 </section>
 
 <!-- ════════ DEPOIMENTOS ════════ -->
-<section class="section">
+<section class="section" style="position:relative;overflow:hidden;">
+  <svg style="position:absolute;right:-60px;top:10%;width:260px;opacity:.04;pointer-events:none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" aria-hidden="true">
+    <circle cx="50" cy="50" r="50" fill="#1cac50"/>
+    <g transform="translate(50,50) scale(0.185) translate(-625,-204)">
+      <path fill="#ffffff" d="M651.9,78.8c10.1,4.7,20.1,9.9,29.8,15.6c9.3,5.5,18.1,11.9,26.4,19c8.6,7.4,15.5,15.5,20.7,24.5c7.6,13,10.2,26.5,7.8,40.5c-2,12-7.8,23.5-15.4,33.2c0.9-7.8,0.7-15.8-0.4-24c-4.3-30.7-21.8-55.9-49.1-71.3c-9.7-5.8-20.5-9.8-31.2-13.5c-15.9-5.5-31.1-12-45.8-19.4c-5.8-3-11.6-6.6-17.4-11C561.7,60.9,554.3,47,558.8,29c2.2-8.9,6.6-18.3,13.1-28.2c1.3,8.5,4.3,16.2,9,23c7.4,10.7,16.4,20.1,27.1,28.2C622,62.4,636.5,71.3,651.9,78.8z"/>
+      <path fill="#22d860" d="M681.7,94.4c-9.8-5.7-19.7-10.9-29.8-15.6c7-24.2,2.4-49.8-9.1-71.7C670.6,27.4,692.5,58.4,681.7,94.4z"/>
+    </g>
+  </svg>
   <div class="container">
-    <div class="section-header">
+    <div class="section-header reveal">
       <span class="tag">Resultados reais</span>
       <h2 class="section-title" style="margin-top:16px;">Quem já passou<br/><span>pela Pro DNA.</span></h2>
     </div>
     <div class="proof-grid">
-      <div class="proof-card">
+      <div class="proof-card reveal delay-1">
         <div class="proof-stars">★★★★★</div>
         <div class="proof-quote">Passei em concurso público antes mesmo de terminar o curso. Não acreditei quando saiu o resultado — mas estava lá, meu nome na lista.</div>
         <div class="proof-author">
@@ -566,7 +804,7 @@ footer{
           <div><div class="proof-name">Aluno da Pro DNA</div><div class="proof-role">Aprovado em concurso público · ainda no curso</div></div>
         </div>
       </div>
-      <div class="proof-card">
+      <div class="proof-card reveal delay-2">
         <div class="proof-stars">★★★★★</div>
         <div class="proof-quote">Entrei sem pagar nada, com fardamento já incluído. Terminei o curso com emprego garantido num hospital da região. Valeu cada aula.</div>
         <div class="proof-author">
@@ -574,7 +812,7 @@ footer{
           <div><div class="proof-name">Aluna da Pro DNA</div><div class="proof-role">Técnica de Enfermagem · Hospital Regional</div></div>
         </div>
       </div>
-      <div class="proof-card">
+      <div class="proof-card reveal delay-3">
         <div class="proof-stars">★★★★★</div>
         <div class="proof-quote">O mercado contrata técnico o tempo todo. Mal terminei e já recebi três propostas. A formação da Pro DNA abre porta de verdade.</div>
         <div class="proof-author">
@@ -588,25 +826,27 @@ footer{
 
 <!-- ════════ CTA FINAL ════════ -->
 <section class="cta-section">
+  <div class="cta-glow"></div>
   <div class="cta-inner">
-    <span class="tag">Não deixa pra amanhã</span>
-    <h2 class="cta-title" style="margin-top:20px;">
+    <span class="tag reveal">Não deixa pra amanhã</span>
+    <h2 class="cta-title reveal" style="margin-top:18px;">
       Não tem mais<br/>desculpa pra <span>adiar.</span>
     </h2>
-    <p class="cta-sub">
+    <p class="cta-sub reveal">
       Inscrição grátis. Matrícula grátis. Fardamento grátis.<br/>
       Preço congelado do começo ao fim.<br/>
       <strong>Você entra sem pagar nada pra começar.</strong>
     </p>
-    <div class="cta-buttons">
-      <a href="https://wa.me/5588997380077?text=Olá!%20Quero%20garantir%20minha%20vaga%20no%20curso%20Técnico%20de%20Enfermagem%20da%20Pro%20DNA!" class="btn-orange" target="_blank" style="font-size:1.1rem;padding:20px 48px;">
-        ➜ &nbsp;Garantir minha vaga agora
+    <div class="cta-buttons reveal">
+      <a href="https://wa.me/5588997380077?text=Olá!%20Quero%20garantir%20minha%20vaga%20no%20Técnico%20de%20Enfermagem%20da%20Pro%20DNA!" class="btn-orange" target="_blank" style="font-size:1.05rem;padding:19px 44px;">
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        Garantir minha vaga agora
       </a>
       <a href="https://wa.me/5588997380077" class="btn-wpp" target="_blank">
-        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.119.554 4.107 1.523 5.832L.057 23.882l6.195-1.463A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.79 9.79 0 01-5.031-1.388l-.361-.214-3.741.882.933-3.648-.235-.374A9.786 9.786 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182c5.42 0 9.818 4.398 9.818 9.818 0 5.42-4.398 9.818-9.818 9.818z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
         Falar pelo WhatsApp
       </a>
-      <span class="cta-note">Ou siga no Instagram: <a href="https://instagram.com/poloprodna" target="_blank">@poloprodna</a></span>
+      <span class="cta-note">Siga no Instagram: <a href="https://instagram.com/poloprodna" target="_blank">@poloprodna</a></span>
     </div>
   </div>
 </section>
@@ -615,25 +855,44 @@ footer{
 <footer>
   <div class="footer-inner">
     <svg class="logo-svg-sm" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1318 408">
-      <style>.fst1{fill:#FFFFFF;}.fst2{fill:#1CAC50;}</style>
-      <path class="fst1" d="M 44.89 221.27 A 0.39 0.39 0.0 0 0 44.50 221.66 L 44.50 272.43 A 0.31 0.31 0.0 0 1 44.19 272.74 L 0.81 272.74 A 0.31 0.30 0.0 0 1 0.50 272.44 L 0.50 99.31 A 0.32 0.32 0.0 0 1 0.82 98.99 Q 39.63 99.02 76.22 98.94 Q 88.24 98.91 94.25 100.15 C 117.14 104.85 133.51 121.53 138.27 144.62 C 145.39 179.15 128.24 212.09 92.53 219.98 Q 86.29 221.36 71.79 221.30 Q 49.07 221.20 44.89 221.27 Z M 44.59 138.29 L 44.41 190.53 A 0.35 0.35 0.0 0 0 44.76 190.88 L 69.74 190.97 A 21.87 21.56 0.2 0 0 91.68 169.48 L 91.72 159.66 A 21.87 21.56 0.2 0 0 69.92 138.03 L 44.94 137.94 A 0.35 0.35 0.0 0 0 44.59 138.29 Z"/>
+      <path fill="#ffffff" d="M 44.89 221.27 A 0.39 0.39 0.0 0 0 44.50 221.66 L 44.50 272.43 A 0.31 0.31 0.0 0 1 44.19 272.74 L 0.81 272.74 A 0.31 0.30 0.0 0 1 0.50 272.44 L 0.50 99.31 A 0.32 0.32 0.0 0 1 0.82 98.99 Q 39.63 99.02 76.22 98.94 Q 88.24 98.91 94.25 100.15 C 117.14 104.85 133.51 121.53 138.27 144.62 C 145.39 179.15 128.24 212.09 92.53 219.98 Q 86.29 221.36 71.79 221.30 Q 49.07 221.20 44.89 221.27 Z M 44.59 138.29 L 44.41 190.53 A 0.35 0.35 0.0 0 0 44.76 190.88 L 69.74 190.97 A 21.87 21.56 0.2 0 0 91.68 169.48 L 91.72 159.66 A 21.87 21.56 0.2 0 0 69.92 138.03 L 44.94 137.94 A 0.35 0.35 0.0 0 0 44.59 138.29 Z"/>
       <path fill="#ffffff" d="M 299.15 272.40 A 0.23 0.23 0.0 0 1 298.95 272.74 L 243.20 272.74 A 0.87 0.86 -12.1 0 1 242.41 272.24 L 219.50 222.64 A 1.69 1.68 -7.4 0 0 218.25 221.68 Q 206.43 219.66 193.52 219.32 A 0.26 0.26 0.0 0 0 193.25 219.58 L 193.25 272.43 A 0.31 0.31 0.0 0 1 192.94 272.74 L 150.05 272.74 A 0.31 0.30 90.0 0 1 149.75 272.43 L 149.75 100.14 A 0.40 0.40 0.0 0 1 150.15 99.74 Q 242.88 99.79 246.46 99.72 Q 257.16 99.52 261.91 101.11 C 283.14 108.21 292.70 129.01 293.64 150.05 C 294.73 174.32 289.71 200.67 262.71 208.08 A 0.18 0.17 -24.1 0 0 262.60 208.34 Q 281.21 239.50 299.15 272.40 Z M 192.14 141.05 L 192.36 184.11 A 0.46 0.46 0.0 0 0 192.83 184.57 L 226.69 184.39 A 23.40 19.88 -0.3 0 0 249.98 164.39 L 249.96 160.17 A 23.40 19.88 -0.3 0 0 226.45 140.41 L 192.60 140.59 A 0.46 0.46 0.0 0 0 192.14 141.05 Z"/>
       <path fill="#ffffff" d="M 389.84 100.08 C 405.31 100.16 421.68 102.58 435.52 109.67 C 463.06 123.78 475.90 149.51 477.44 180.42 Q 477.53 182.17 477.50 188.30 Q 477.46 194.43 477.36 196.18 C 475.48 227.08 462.37 252.67 434.68 266.48 C 420.76 273.42 404.37 275.66 388.90 275.58 C 373.43 275.49 357.07 273.08 343.23 265.99 C 315.69 251.88 302.85 226.15 301.31 195.24 Q 301.22 193.48 301.25 187.36 Q 301.29 181.23 301.39 179.47 C 303.27 148.58 316.38 122.99 344.07 109.18 C 357.99 102.24 374.38 100.00 389.84 100.08 Z M 345.67 187.77 C 345.73 214.49 358.29 235.11 387.52 235.05 C 416.76 234.99 429.23 214.31 429.17 187.59 C 429.12 160.86 416.55 140.24 387.32 140.30 C 358.09 140.37 345.61 161.04 345.67 187.77 Z"/>
-      <path fill="#1cac50" d="M 772.20 100.75 Q 793.62 100.68 820.52 100.81 C 839.78 100.89 859.15 102.86 877.09 109.81 C 907.10 121.44 920.48 146.65 922.33 177.73 Q 922.93 187.75 922.35 196.05 C 920.33 225.21 907.32 248.89 880.52 262.07 C 863.48 270.45 843.36 273.64 824.49 273.70 Q 796.61 273.80 771.79 273.73 A 0.32 0.32 0.0 0 1 771.48 273.41 L 771.48 101.47 A 0.72 0.72 0.0 0 1 772.20 100.75 Z M 815.74 187.02 Q 815.73 241.52 815.77 243.48 A 0.55 0.55 0.0 0 0 816.27 244.02 Q 826.15 244.87 837.31 242.78 C 864.62 237.68 875.60 216.59 875.99 190.75 Q 876.00 190.18 876.00 187.04 Q 876.00 183.89 875.99 183.32 C 875.61 157.48 864.64 136.39 837.34 131.27 Q 826.18 129.18 816.30 130.02 A 0.55 0.55 0.0 0 0 815.80 130.56 Q 815.76 132.53 815.74 187.02 Z"/>
-      <path fill="#1cac50" d="M 1045.65 192.63 L 1045.75 101.23 A 0.48 0.48 0.0 0 1 1046.23 100.75 L 1091.18 100.75 A 0.32 0.31 0.0 0 1 1091.50 101.06 L 1091.50 273.14 A 0.61 0.61 0.0 0 1 1090.89 273.75 L 1048.73 273.75 A 1.14 1.12 72.1 0 1 1047.81 273.27 L 981.47 178.71 A 0.26 0.26 0.0 0 0 981.00 178.86 L 981.00 273.14 A 0.61 0.61 0.0 0 1 980.39 273.75 L 941.65 273.75 A 0.60 0.60 0.0 0 1 941.05 273.15 L 942.63 101.53 A 0.78 0.78 0.0 0 1 943.41 100.75 L 980.83 100.75 A 0.69 0.67 -16.9 0 1 981.39 101.04 L 1045.65 192.63 Z"/>
-      <path fill="#1cac50" d="M 1172.41 100.75 L 1218.64 100.75 A 0.38 0.38 0.0 0 1 1218.99 100.99 L 1284.92 273.23 A 0.38 0.38 0.0 0 1 1284.57 273.75 L 1239.25 273.75 A 0.38 0.38 0.0 0 1 1238.90 273.51 L 1227.70 244.24 A 0.38 0.38 0.0 0 0 1227.35 244.00 L 1164.64 244.00 A 0.38 0.38 0.0 0 0 1164.29 244.24 L 1152.93 273.51 A 0.38 0.38 0.0 0 1 1152.58 273.75 L 1110.40 273.75 A 0.38 0.38 0.0 0 1 1110.04 273.24 L 1172.05 101.00 A 0.38 0.38 0.0 0 1 1172.41 100.75 Z M 1196.02 157.04 A 0.34 0.34 0.0 0 0 1195.39 157.05 L 1178.29 204.54 A 0.34 0.34 0.0 0 0 1178.61 205.00 L 1214.70 205.00 A 0.34 0.34 0.0 0 0 1215.01 204.53 L 1196.02 157.04 Z"/>
-      <path fill="#1cac50" d="M 671.38 116.15 C 662.36 130.70 648.18 143.85 634.59 153.09 Q 623.34 160.74 612.27 168.28 Q 594.63 180.30 578.32 195.10 A 0.23 0.23 0.0 0 0 578.48 195.50 L 688.14 195.50 A 1.11 1.10 19.3 0 0 689.00 195.09 Q 695.73 186.76 699.46 177.14 A 0.29 0.28 -79.3 0 0 699.20 176.75 L 655.96 176.75 A 0.69 0.68 9.5 0 0 655.31 177.21 Q 654.22 180.21 653.41 180.96 Q 649.40 184.64 644.84 182.85 C 635.78 179.30 640.70 165.21 650.36 168.58 Q 654.21 169.92 655.26 174.39 A 0.47 0.46 -6.1 0 0 655.72 174.75 L 699.85 174.75 A 0.67 0.67 0.0 0 0 700.51 174.17 Q 700.64 173.13 700.91 172.70 A 0.43 0.42 48.7 0 1 701.65 172.75 Q 706.90 183.80 708.10 191.00 Q 711.10 208.99 701.49 224.83 Q 694.02 237.14 682.76 247.53 C 667.74 261.39 652.70 271.86 634.67 283.42 Q 620.90 292.24 610.26 305.15 Q 594.32 298.36 580.08 288.88 Q 585.91 281.44 592.40 275.15 C 602.11 265.75 611.07 258.95 623.58 250.50 C 640.28 239.22 656.38 227.34 670.56 214.58 A 0.33 0.33 0.0 0 0 670.34 214.00 L 560.90 214.00 A 0.40 0.39 -69.1 0 0 560.60 214.14 Q 554.61 221.73 551.08 230.16 A 0.43 0.43 0.0 0 0 551.48 230.75 L 594.77 230.75 A 0.71 0.70 6.7 0 0 595.46 230.21 Q 596.59 225.61 600.96 224.47 C 608.97 222.39 614.16 232.66 607.69 237.88 C 603.18 241.52 596.91 239.10 595.38 233.29 A 0.74 0.72 82.1 0 0 594.68 232.75 L 551.01 232.75 A 0.89 0.88 5.1 0 0 550.14 233.47 Q 549.99 234.31 549.96 234.34 A 0.43 0.43 0.0 0 1 549.29 234.19 Q 544.22 223.56 542.71 216.24 C 538.84 197.43 547.74 180.68 560.59 167.59 Q 576.28 151.60 596.63 138.12 Q 610.20 129.14 615.80 125.55 Q 628.77 117.23 639.85 102.77 C 650.90 106.39 661.64 110.32 671.38 116.15 Z"/>
+      <path fill="#1cac50" d="M 772.20 100.75 Q 820.52 100.81 877.09 109.81 C 907.10 121.44 922.33 177.73 922.35 196.05 C 920.33 225.21 907.32 248.89 880.52 262.07 C 863.48 270.45 843.36 273.64 824.49 273.70 Q 796.61 273.80 771.48 273.41 L 771.48 101.47 A 0.72 0.72 0.0 0 1 772.20 100.75 Z M 815.74 187.02 Q 815.73 243.48 816.27 244.02 Q 826.15 244.87 837.31 242.78 C 864.62 237.68 875.99 190.75 875.99 183.32 C 875.61 157.48 864.64 136.39 837.34 131.27 Q 826.18 129.18 815.80 130.56 Q 815.76 132.53 815.74 187.02 Z"/>
+      <path fill="#1cac50" d="M 1045.65 192.63 L 1045.75 101.23 A 0.48 0.48 0.0 0 1 1046.23 100.75 L 1091.50 101.06 L 1091.50 273.14 A 0.61 0.61 0.0 0 1 1090.89 273.75 L 1048.73 273.75 A 1.14 1.12 72.1 0 1 1047.81 273.27 L 981.47 178.71 A 0.26 0.26 0.0 0 0 981.00 178.86 L 981.00 273.75 L 941.05 273.15 L 942.63 101.53 A 0.78 0.78 0.0 0 1 943.41 100.75 L 981.39 101.04 L 1045.65 192.63 Z"/>
+      <path fill="#1cac50" d="M 1172.41 100.75 L 1218.99 100.99 L 1284.92 273.23 A 0.38 0.38 0.0 0 1 1284.57 273.75 L 1239.25 273.75 L 1227.70 244.24 L 1164.64 244.00 L 1152.93 273.51 L 1110.04 273.24 L 1172.05 101.00 A 0.38 0.38 0.0 0 1 1172.41 100.75 Z M 1196.02 157.04 L 1178.29 204.54 L 1214.70 205.00 L 1196.02 157.04 Z"/>
+      <path fill="#1cac50" d="M 671.38 116.15 C 648.18 143.85 612.27 168.28 578.32 195.10 L 688.14 195.50 Q 699.46 177.14 655.96 176.75 Q 644.84 182.85 C 635.78 179.30 650.36 168.58 655.26 174.39 L 699.85 174.75 Q 708.10 191.00 701.49 224.83 C 667.74 261.39 634.67 283.42 610.26 305.15 Q 594.32 298.36 580.08 288.88 Q 623.58 250.50 670.56 214.58 L 560.90 214.00 Q 551.08 230.16 594.77 230.75 Q 596.59 225.61 607.69 237.88 C 595.38 233.29 542.71 216.24 560.59 167.59 Q 596.63 138.12 639.85 102.77 C 661.64 110.32 671.38 116.15 671.38 116.15 Z"/>
       <ellipse fill="#1cac50" cx="0" cy="0" transform="translate(670.05,149.34) rotate(90)" rx="8.81" ry="6.53"/>
       <ellipse fill="#1cac50" cx="0" cy="0" transform="translate(580.72,261.19) rotate(90)" rx="8.82" ry="6.53"/>
     </svg>
     <div class="footer-tagline">Seja você um destaque no mercado de trabalho</div>
     <div class="footer-contact">
-      <a href="https://wa.me/5588997380077" target="_blank">📲 88 9 9738-0077</a>
-      <a href="https://instagram.com/poloprodna" target="_blank">📍 @poloprodna</a>
+      <a href="https://wa.me/5588997380077" target="_blank">
+        <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8a19.79 19.79 0 01-3.07-8.7A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        88 9 9738-0077
+      </a>
+      <a href="https://instagram.com/poloprodna" target="_blank">
+        <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        @poloprodna
+      </a>
     </div>
     <div class="footer-copy">© 2025 Pro DNA Técnico · Todos os direitos reservados</div>
   </div>
 </footer>
 
+<script>
+// Intersection Observer for scroll animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
+  observer.observe(el);
+});
+</script>
 </body>
 </html>
