@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Pro DNA — Designs</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Inter:wght@400;500;600&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background: #0d0d0d;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 60px;
+  }
+
+  h2.section-label {
+    color: #888;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: -40px;
+    align-self: flex-start;
+    padding-left: 10px;
+  }
+
+  /* ===================== POST QUADRADO ===================== */
+  .post-square {
+    width: 600px;
+    height: 600px;
+    background: linear-gradient(145deg, #0a1628 0%, #0d2137 50%, #091420 100%);
+    border-radius: 24px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 44px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+  }
+
+  .post-square::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 360px; height: 360px;
+    background: radial-gradient(circle, rgba(0,180,255,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .post-square::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: -60px;
+    width: 280px; height: 280px;
+    background: radial-gradient(circle, rgba(0,120,255,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .logo-area {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .logo-icon {
+    width: 40px; height: 40px;
+    background: linear-gradient(135deg, #00b4ff, #0066ff);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+  }
+
+  .logo-text {
+    font-size: 1.3rem;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: 0.05em;
+  }
+
+  .logo-text span {
+    color: #00b4ff;
+  }
+
+  .headline {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px 0;
+  }
+
+  .pre-headline {
+    font-size: 0.8rem;
+    color: #00b4ff;
+    letter-spacing: 0.25em;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .main-title {
+    font-size: 2.6rem;
+    font-weight: 900;
+    color: #ffffff;
+    line-height: 1.1;
+  }
+
+  .main-title span {
+    color: #00b4ff;
+  }
+
+  .sub-title {
+    font-size: 1rem;
+    color: #8ab4cc;
+    font-weight: 500;
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+
+  .badges-row {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 16px 0;
+  }
+
+  .badge {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(0,180,255,0.08);
+    border: 1px solid rgba(0,180,255,0.2);
+    border-radius: 12px;
+    padding: 12px 16px;
+  }
+
+  .badge-icon {
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+
+  .badge-text {
+    font-size: 0.88rem;
+    color: #e0f0ff;
+    font-weight: 600;
+  }
+
+  .badge-text strong {
+    color: #00d4ff;
+  }
+
+  .bottom-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .tagline {
+    font-size: 0.72rem;
+    color: #4a7a99;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 700;
+    max-width: 260px;
+    line-height: 1.4;
+  }
+
+  .tagline span {
+    color: #00b4ff;
+    display: block;
+    font-size: 0.85rem;
+  }
+
+  .contact-block {
+    text-align: right;
+  }
+
+  .contact-block p {
+    font-size: 0.75rem;
+    color: #6a9ab8;
+    line-height: 1.6;
+  }
+
+  .contact-block .contact-highlight {
+    color: #00b4ff;
+    font-weight: 700;
+    font-size: 0.8rem;
+  }
+
+  /* ============= STORY VERTICAL ============= */
+  .story-card {
+    width: 390px;
+    height: 692px;
+    background: linear-gradient(160deg, #060e1a 0%, #0b1e33 40%, #060e1a 100%);
+    border-radius: 28px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 48px 36px 44px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.7);
+  }
+
+  .story-card::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(0,140,255,0.07) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .story-top {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .story-label {
+    font-size: 0.65rem;
+    color: #00b4ff;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  .story-logo {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #fff;
+  }
+
+  .story-logo span { color: #00b4ff; }
+
+  .story-mid {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 14px;
+  }
+
+  .story-question {
+    font-size: 1.05rem;
+    color: #7ab2cc;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .story-big {
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.15;
+  }
+
+  .story-big span { color: #00d4ff; }
+
+  .story-items {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 8px;
+  }
+
+  .story-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: rgba(255,255,255,0.04);
+    border-left: 3px solid #00b4ff;
+    border-radius: 0 12px 12px 0;
+    padding: 13px 16px;
+  }
+
+  .story-item-icon { font-size: 1.1rem; }
+
+  .story-item-text {
+    font-size: 0.88rem;
+    color: #cce6f5;
+    font-weight: 600;
+  }
+
+  .story-item-text strong { color: #00d4ff; }
+
+  .story-salary {
+    background: linear-gradient(135deg, rgba(0,180,255,0.15), rgba(0,100,255,0.1));
+    border: 1px solid rgba(0,180,255,0.3);
+    border-radius: 16px;
+    padding: 18px 20px;
+    text-align: center;
+    margin-top: 4px;
+  }
+
+  .story-salary .label { font-size: 0.65rem; color: #5a9ab8; letter-spacing: 0.15em; text-transform: uppercase; }
+  .story-salary .value { font-size: 2rem; font-weight: 900; color: #00d4ff; margin-top: 4px; }
+  .story-salary .sub { font-size: 0.7rem; color: #4a7a90; margin-top: 2px; }
+
+  .story-bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .story-cta-btn {
+    background: linear-gradient(135deg, #00b4ff, #0055ff);
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-align: center;
+    padding: 16px;
+    border-radius: 14px;
+    text-transform: uppercase;
+    box-shadow: 0 8px 24px rgba(0,140,255,0.35);
+  }
+
+  .story-contacts {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .story-contacts p {
+    font-size: 0.72rem;
+    color: #4a7a99;
+    line-height: 1.6;
+  }
+
+  .story-contacts .hl { color: #00b4ff; font-weight: 700; }
+
+  .story-tagline-small {
+    font-size: 0.62rem;
+    color: #2a5a78;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: 700;
+  }
+
+  /* ============= CARD OFERTA ============= */
+  .offer-card {
+    width: 600px;
+    background: linear-gradient(135deg, #071525 0%, #0c2035 100%);
+    border-radius: 24px;
+    padding: 50px 48px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+  }
+
+  .offer-card::after {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(0,180,255,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .offer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 36px;
+  }
+
+  .offer-logo {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: #fff;
+  }
+
+  .offer-logo span { color: #00b4ff; }
+
+  .offer-badge-top {
+    background: rgba(0,180,255,0.12);
+    border: 1px solid rgba(0,180,255,0.25);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-size: 0.7rem;
+    color: #00b4ff;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .offer-title {
+    font-size: 2rem;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+
+  .offer-title span { color: #00d4ff; }
+
+  .offer-subtitle {
+    font-size: 0.9rem;
+    color: #6a9ab8;
+    margin-bottom: 36px;
+    line-height: 1.5;
+  }
+
+  .offer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  .offer-item {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .offer-item-icon { font-size: 1.5rem; }
+  .offer-item-label { font-size: 0.65rem; color: #4a7a99; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 700; }
+  .offer-item-value { font-size: 1.3rem; font-weight: 900; color: #00d4ff; }
+  .offer-item-desc { font-size: 0.75rem; color: #5a8aa0; line-height: 1.4; }
+
+  .offer-divider {
+    height: 1px;
+    background: rgba(255,255,255,0.06);
+    margin: 4px 0 24px;
+  }
+
+  .offer-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .offer-tagline {
+    font-size: 0.72rem;
+    color: #2a5a78;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+
+  .offer-tagline span {
+    color: #00b4ff;
+    display: block;
+    font-size: 0.8rem;
+  }
+
+  .offer-contacts {
+    text-align: right;
+  }
+
+  .offer-contacts p {
+    font-size: 0.75rem;
+    color: #4a7a99;
+    line-height: 1.7;
+  }
+
+  .offer-contacts .hl {
+    color: #00b4ff;
+    font-weight: 700;
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== POST QUADRADO ===================== -->
+<h2 class="section-label">📐 Post Quadrado — Instagram Feed (1080x1080)</h2>
+<div class="post-square">
+  <div class="logo-area">
+    <div class="logo-icon">🧬</div>
+    <div class="logo-text">PRO <span>DNA</span></div>
+  </div>
+
+  <div class="headline">
+    <div class="pre-headline">Técnico de Enfermagem</div>
+    <div class="main-title">Entre no<br/>mercado em<br/><span>2 anos.</span></div>
+    <div class="sub-title">Formação presencial · Piso salarial R$ 3.325 · Vagas perto de você</div>
+  </div>
+
+  <div class="badges-row">
+    <div class="badge">
+      <div class="badge-icon">🎓</div>
+      <div class="badge-text"><strong>Inscrição e Matrícula GRÁTIS</strong> — sem custo pra começar</div>
+    </div>
+    <div class="badge">
+      <div class="badge-icon">👕</div>
+      <div class="badge-text"><strong>Fardamento GRÁTIS</strong> — sem precisar comprar</div>
+    </div>
+    <div class="badge">
+      <div class="badge-icon">🔒</div>
+      <div class="badge-text"><strong>Preço congelado</strong> — do começo ao fim do curso</div>
+    </div>
+  </div>
+
+  <div class="bottom-bar">
+    <div class="tagline">
+      <span>Seja você um destaque</span>
+      no mercado de trabalho
+    </div>
+    <div class="contact-block">
+      <p class="contact-highlight">@poloprodna</p>
+      <p>88 9 9738-0077</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== STORY ===================== -->
+<h2 class="section-label">📱 Story / Reels Vertical (1080x1920)</h2>
+<div class="story-card">
+  <div class="story-top">
+    <div class="story-label">Curso Técnico</div>
+    <div class="story-logo">PRO <span>DNA</span></div>
+  </div>
+
+  <div class="story-mid">
+    <div class="story-question">Quanto custa entrar no curso?</div>
+    <div class="story-big">Menos do<br/>que você<br/><span>imagina.</span></div>
+
+    <div class="story-items">
+      <div class="story-item">
+        <div class="story-item-icon">🎓</div>
+        <div class="story-item-text">Inscrição: <strong>GRÁTIS</strong></div>
+      </div>
+      <div class="story-item">
+        <div class="story-item-icon">📋</div>
+        <div class="story-item-text">Matrícula: <strong>GRÁTIS</strong></div>
+      </div>
+      <div class="story-item">
+        <div class="story-item-icon">👕</div>
+        <div class="story-item-text">Fardamento: <strong>GRÁTIS</strong></div>
+      </div>
+      <div class="story-item">
+        <div class="story-item-icon">🔒</div>
+        <div class="story-item-text">Preço: <strong>Congelado do início ao fim</strong></div>
+      </div>
+    </div>
+
+    <div class="story-salary">
+      <div class="label">Piso salarial</div>
+      <div class="value">R$ 3.325</div>
+      <div class="sub">Técnico de Enfermagem · Formação em 2 anos</div>
+    </div>
+  </div>
+
+  <div class="story-bottom">
+    <div class="story-cta-btn">📲 Fale agora e garanta sua vaga</div>
+    <div class="story-contacts">
+      <p>
+        <span class="hl">@poloprodna</span><br/>
+        88 9 9738-0077
+      </p>
+      <div class="story-tagline-small">Seja você um destaque<br/>no mercado de trabalho</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== CARD OFERTA ===================== -->
+<h2 class="section-label">🎁 Card de Oferta — Grupos de WhatsApp</h2>
+<div class="offer-card">
+  <div class="offer-header">
+    <div class="offer-logo">PRO <span>DNA</span></div>
+    <div class="offer-badge-top">🔥 Oferta Especial</div>
+  </div>
+
+  <div class="offer-title">Sua carreira na<br/><span>saúde começa aqui.</span></div>
+  <div class="offer-subtitle">Técnico de Enfermagem · Presencial · 2 anos · Perto de você</div>
+
+  <div class="offer-grid">
+    <div class="offer-item">
+      <div class="offer-item-icon">🎓</div>
+      <div class="offer-item-label">Inscrição</div>
+      <div class="offer-item-value">GRÁTIS</div>
+      <div class="offer-item-desc">Sem taxa para se inscrever</div>
+    </div>
+    <div class="offer-item">
+      <div class="offer-item-icon">📋</div>
+      <div class="offer-item-label">Matrícula</div>
+      <div class="offer-item-value">GRÁTIS</div>
+      <div class="offer-item-desc">Sem custo para entrar</div>
+    </div>
+    <div class="offer-item">
+      <div class="offer-item-icon">👕</div>
+      <div class="offer-item-label">Fardamento</div>
+      <div class="offer-item-value">GRÁTIS</div>
+      <div class="offer-item-desc">Uniforme completo incluso</div>
+    </div>
+    <div class="offer-item">
+      <div class="offer-item-icon">🔒</div>
+      <div class="offer-item-label">Mensalidade</div>
+      <div class="offer-item-value">Congelada</div>
+      <div class="offer-item-desc">Preço fixo do início ao fim</div>
+    </div>
+  </div>
+
+  <div class="offer-divider"></div>
+
+  <div class="offer-footer">
+    <div class="offer-tagline">
+      <span>Seja você um destaque</span>
+      no mercado de trabalho
+    </div>
+    <div class="offer-contacts">
+      <p class="hl">@poloprodna</p>
+      <p>88 9 9738-0077</p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

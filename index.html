@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Pro DNA Técnico — Curso Técnico de Enfermagem</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+  --bg:        #061008;
+  --bg2:       #0a1a0c;
+  --surface:   #0d2210;
+  --card:      #102814;
+  --green:     #1cac50;
+  --green2:    #22d860;
+  --green-dark:#0d7a35;
+  --orange:    #e87c20;
+  --orange2:   #ff9432;
+  --black:     #040707;
+  --white:     #ffffff;
+  --text:      #e8f5ec;
+  --muted:     #6aaa7a;
+  --border:    rgba(28,172,80,0.18);
+  --wpp:       #25D366;
+  --radius:    16px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;}
+
+/* ── UTILS ── */
+.container{max-width:1100px;margin:0 auto;padding:0 24px;}
+
+.btn-orange{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  background:linear-gradient(135deg,var(--orange),var(--orange2));
+  color:#fff;font-family:'Montserrat',sans-serif;font-weight:800;font-size:1.05rem;
+  padding:18px 40px;border-radius:999px;text-decoration:none;
+  box-shadow:0 8px 28px rgba(232,124,32,0.4);
+  transition:transform .2s,box-shadow .2s;border:none;cursor:pointer;
+  letter-spacing:.02em;
+}
+.btn-orange:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(232,124,32,0.5);}
+
+.btn-wpp{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  background:var(--wpp);color:#fff;
+  font-family:'Montserrat',sans-serif;font-weight:800;font-size:1rem;
+  padding:16px 36px;border-radius:999px;text-decoration:none;
+  box-shadow:0 8px 28px rgba(37,211,102,0.35);
+  transition:transform .2s;
+}
+.btn-wpp:hover{transform:translateY(-2px);}
+.btn-wpp svg,.btn-orange svg{width:22px;height:22px;fill:#fff;flex-shrink:0;}
+
+.tag{
+  display:inline-block;
+  background:rgba(28,172,80,0.15);
+  border:1px solid rgba(28,172,80,0.35);
+  color:var(--green2);
+  font-family:'Montserrat',sans-serif;
+  font-size:.68rem;font-weight:700;
+  letter-spacing:.22em;text-transform:uppercase;
+  padding:6px 14px;border-radius:999px;
+}
+
+.section-title{
+  font-family:'Montserrat',sans-serif;
+  font-size:clamp(1.7rem,4vw,2.5rem);
+  font-weight:900;color:var(--white);line-height:1.15;
+}
+.section-title span{color:var(--green2);}
+.section-sub{font-size:.98rem;color:var(--muted);line-height:1.75;margin-top:12px;}
+
+/* ── LOGO SVG ── */
+.logo-svg{height:42px;width:auto;}
+.logo-svg-sm{height:32px;width:auto;}
+
+/* ════════════ NAV ════════════ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(255,255,255,0.12);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(255,255,255,0.18);
+  box-shadow:0 4px 24px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.25);
+  padding:0 24px;
+}
+.nav-inner{
+  max-width:1100px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;height:70px;
+}
+.nav-cta{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--orange);color:#fff;
+  font-family:'Montserrat',sans-serif;font-weight:800;font-size:.8rem;
+  padding:10px 22px;border-radius:999px;text-decoration:none;
+  transition:transform .2s,background .2s;
+}
+.nav-cta:hover{transform:scale(1.03);background:var(--orange2);}
+
+/* ════════════ HERO ════════════ */
+.hero{
+  min-height:100vh;display:flex;align-items:center;
+  padding:100px 24px 80px;position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;top:-300px;right:-200px;
+  width:800px;height:800px;
+  background:radial-gradient(circle,rgba(28,172,80,.09) 0%,transparent 65%);
+  pointer-events:none;
+}
+.hero::after{
+  content:'';position:absolute;bottom:-200px;left:-100px;
+  width:600px;height:600px;
+  background:radial-gradient(circle,rgba(28,172,80,.05) 0%,transparent 65%);
+  pointer-events:none;
+}
+/* DNA helix decoration */
+.dna-bg{
+  position:absolute;right:-60px;top:50%;transform:translateY(-50%);
+  opacity:.04;pointer-events:none;
+  width:420px;height:420px;
+}
+
+.hero-inner{
+  max-width:1100px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:64px;align-items:center;position:relative;z-index:1;
+}
+.hero-left{display:flex;flex-direction:column;gap:28px;}
+
+.hero-eyebrow{
+  display:flex;align-items:center;gap:10px;
+}
+.pulse-dot{
+  width:10px;height:10px;border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 0 0 rgba(28,172,80,.6);
+  animation:pulse 2s infinite;flex-shrink:0;
+}
+@keyframes pulse{
+  0%{box-shadow:0 0 0 0 rgba(28,172,80,.6);}
+  70%{box-shadow:0 0 0 10px rgba(28,172,80,0);}
+  100%{box-shadow:0 0 0 0 rgba(28,172,80,0);}
+}
+.eyebrow-text{font-size:.78rem;color:var(--green);font-weight:700;letter-spacing:.15em;text-transform:uppercase;font-family:'Montserrat',sans-serif;}
+
+.hero-title{
+  font-family:'Montserrat',sans-serif;
+  font-size:clamp(2.1rem,5.5vw,3.6rem);
+  font-weight:900;color:var(--white);line-height:1.08;
+}
+.hero-title .accent{color:var(--green2);}
+.hero-title .block{
+  display:inline-block;
+  background:linear-gradient(135deg,var(--green-dark),var(--green));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+
+.hero-desc{font-size:1.05rem;color:#9abfa4;line-height:1.75;}
+.hero-desc strong{color:var(--white);}
+
+.hero-chips{display:flex;flex-wrap:wrap;gap:10px;}
+.chip{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(28,172,80,.1);border:1px solid rgba(28,172,80,.2);
+  border-radius:999px;padding:9px 18px;
+  font-size:.82rem;color:var(--text);font-weight:600;
+  font-family:'Montserrat',sans-serif;
+}
+.chip-icon{font-size:.9rem;}
+
+.hero-ctas{display:flex;flex-wrap:wrap;gap:14px;align-items:center;}
+
+/* VIDEO */
+.video-box{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:24px;overflow:hidden;
+  aspect-ratio:9/16;max-height:580px;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:18px;
+  position:relative;
+}
+.video-box::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(160deg,rgba(28,172,80,.06),rgba(28,172,80,.02));
+}
+.video-play-btn{
+  width:76px;height:76px;
+  background:linear-gradient(135deg,var(--green),var(--green-dark));
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 8px 32px rgba(28,172,80,.4);position:relative;z-index:1;
+  cursor:pointer;transition:transform .2s;
+}
+.video-play-btn:hover{transform:scale(1.08);}
+.video-play-btn svg{width:30px;height:30px;fill:#fff;margin-left:5px;}
+.video-placeholder-text{
+  font-family:'Montserrat',sans-serif;font-size:.72rem;font-weight:700;
+  color:var(--muted);letter-spacing:.15em;text-transform:uppercase;
+  position:relative;z-index:1;
+}
+.video-badge{
+  position:absolute;bottom:20px;left:50%;transform:translateX(-50%);
+  background:rgba(0,0,0,.7);backdrop-filter:blur(8px);
+  border:1px solid rgba(28,172,80,.2);border-radius:999px;
+  padding:9px 20px;font-size:.74rem;color:var(--text);font-weight:600;
+  white-space:nowrap;z-index:2;
+}
+.video-badge span{color:var(--green2);}
+
+/* ════════════ OFFER STRIP ════════════ */
+.offer-strip{
+  background:linear-gradient(90deg,var(--black),#0d1f0f,var(--black));
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  padding:48px 24px;
+}
+.offer-strip-inner{
+  max-width:1100px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:20px;
+}
+.offer-item{
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  text-align:center;padding:28px 16px;
+  background:rgba(28,172,80,.06);border:1px solid var(--border);
+  border-radius:20px;transition:border-color .2s,transform .2s;
+}
+.offer-item:hover{border-color:rgba(28,172,80,.4);transform:translateY(-3px);}
+.offer-icon{font-size:2.2rem;}
+.offer-label{font-size:.62rem;color:var(--muted);letter-spacing:.2em;text-transform:uppercase;font-family:'Montserrat',sans-serif;font-weight:700;}
+.offer-value{font-family:'Montserrat',sans-serif;font-size:1.4rem;font-weight:900;color:var(--green2);}
+.offer-desc{font-size:.74rem;color:#4a7a5a;line-height:1.4;}
+
+/* ════════════ WHAT THEY DO ════════════ */
+.section{padding:100px 24px;}
+.section-header{text-align:center;max-width:700px;margin:0 auto 60px;}
+
+.proc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.proc-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:20px;padding:30px 26px;
+  display:flex;flex-direction:column;gap:14px;
+  transition:transform .2s,border-color .2s,background .2s;
+}
+.proc-card:hover{transform:translateY(-4px);border-color:rgba(28,172,80,.4);background:var(--card);}
+.proc-card-icon{font-size:2rem;}
+.proc-card-title{font-family:'Montserrat',sans-serif;font-size:1rem;font-weight:800;color:var(--white);}
+.proc-card-desc{font-size:.84rem;color:var(--muted);line-height:1.65;}
+
+/* ════════════ AREAS ════════════ */
+.areas-bg{background:var(--surface);}
+.areas-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+.area-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:24px 20px;
+  display:flex;flex-direction:column;gap:9px;
+  transition:transform .2s,border-color .2s;
+}
+.area-card:hover{transform:translateY(-3px);border-color:rgba(28,172,80,.4);}
+.area-icon{font-size:1.7rem;}
+.area-name{font-family:'Montserrat',sans-serif;font-size:.9rem;font-weight:800;color:var(--white);}
+.area-desc{font-size:.74rem;color:var(--muted);line-height:1.5;}
+
+/* SALARY BANNER */
+.salary-banner{
+  max-width:860px;margin:60px auto 0;
+  background:linear-gradient(135deg,rgba(28,172,80,.12),rgba(13,122,53,.08));
+  border:1px solid rgba(28,172,80,.3);border-radius:24px;
+  padding:44px 52px;display:flex;align-items:center;
+  justify-content:space-between;gap:36px;
+}
+.salary-label{font-size:.65rem;color:var(--muted);letter-spacing:.22em;text-transform:uppercase;font-family:'Montserrat',sans-serif;font-weight:700;}
+.salary-value{font-family:'Montserrat',sans-serif;font-size:3.2rem;font-weight:900;color:var(--green2);line-height:1.05;margin-top:6px;}
+.salary-sub{font-size:.78rem;color:#4a7a5a;margin-top:6px;}
+.salary-desc{font-size:1rem;color:var(--text);font-weight:600;line-height:1.6;max-width:320px;text-align:right;}
+.salary-desc span{color:var(--green2);}
+
+/* ════════════ PROOF ════════════ */
+.proof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.proof-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:20px;padding:32px 28px;
+  display:flex;flex-direction:column;gap:20px;
+}
+.proof-stars{color:var(--orange);font-size:1rem;letter-spacing:.1em;}
+.proof-quote{font-size:.95rem;color:var(--text);line-height:1.7;font-style:italic;}
+.proof-quote::before{
+  content:'"';font-family:'Montserrat',sans-serif;font-size:3.5rem;font-weight:900;
+  color:var(--green);opacity:.35;display:block;line-height:.7;margin-bottom:10px;
+}
+.proof-author{display:flex;align-items:center;gap:12px;}
+.proof-avatar{
+  width:44px;height:44px;
+  background:linear-gradient(135deg,var(--green-dark),var(--green));
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-family:'Montserrat',sans-serif;font-weight:900;font-size:1.1rem;color:#fff;flex-shrink:0;
+}
+.proof-name{font-family:'Montserrat',sans-serif;font-size:.88rem;font-weight:800;color:var(--white);}
+.proof-role{font-size:.74rem;color:var(--muted);}
+
+/* ════════════ CTA ════════════ */
+.cta-section{
+  padding:110px 24px;text-align:center;position:relative;overflow:hidden;
+}
+.cta-section::before{
+  content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:1000px;height:1000px;
+  background:radial-gradient(circle,rgba(28,172,80,.07) 0%,transparent 60%);
+  pointer-events:none;
+}
+.cta-inner{max-width:760px;margin:0 auto;position:relative;z-index:1;}
+.cta-title{
+  font-family:'Montserrat',sans-serif;
+  font-size:clamp(2rem,5.5vw,3.2rem);font-weight:900;
+  color:var(--white);line-height:1.12;margin-bottom:20px;
+}
+.cta-title span{color:var(--green2);}
+.cta-sub{font-size:1.05rem;color:var(--muted);line-height:1.75;margin-bottom:44px;}
+.cta-sub strong{color:var(--text);}
+.cta-buttons{display:flex;flex-direction:column;align-items:center;gap:16px;}
+.cta-note{font-size:.82rem;color:#3a6a4a;}
+.cta-note a{color:var(--green);text-decoration:none;}
+
+/* ════════════ FOOTER ════════════ */
+footer{
+  background:var(--black);border-top:1px solid var(--border);padding:48px 24px;
+}
+.footer-inner{
+  max-width:1100px;margin:0 auto;
+  display:flex;flex-direction:column;align-items:center;gap:20px;
+}
+.footer-tagline{
+  font-family:'Montserrat',sans-serif;
+  font-size:.72rem;color:var(--muted);letter-spacing:.18em;text-transform:uppercase;font-weight:700;
+}
+.footer-contact{display:flex;gap:36px;align-items:center;flex-wrap:wrap;justify-content:center;}
+.footer-contact a{
+  color:var(--muted);text-decoration:none;font-size:.85rem;
+  display:flex;align-items:center;gap:7px;transition:color .2s;
+}
+.footer-contact a:hover{color:var(--green2);}
+.footer-copy{font-size:.7rem;color:#2a4a32;margin-top:8px;}
+
+/* ════════════ RESPONSIVE ════════════ */
+@media(max-width:900px){
+  .hero-inner{grid-template-columns:1fr;gap:44px;}
+  .video-box{aspect-ratio:16/9;max-height:280px;}
+  .offer-strip-inner{grid-template-columns:repeat(2,1fr);}
+  .proc-grid{grid-template-columns:repeat(2,1fr);}
+  .areas-grid{grid-template-columns:repeat(2,1fr);}
+  .proof-grid{grid-template-columns:1fr;}
+  .salary-banner{flex-direction:column;text-align:center;}
+  .salary-desc{text-align:center;}
+}
+@media(max-width:560px){
+  .proc-grid{grid-template-columns:1fr;}
+  .areas-grid{grid-template-columns:1fr 1fr;}
+  .hero-ctas{flex-direction:column;align-items:flex-start;}
+  .footer-contact{flex-direction:column;gap:12px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ════════ NAV ════════ -->
+<nav>
+  <div class="nav-inner">
+    <!-- LOGO SVG REAL -->
+    <a href="#">
+      <svg class="logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1318 408">
+      <style>.st0{fill:none;stroke:#105A2C;stroke-width:2;}.st1{fill:#FFFFFF;}.st2{fill:#1CAC50;}</style>
+        <g stroke-width="2" fill="none" stroke-linecap="butt">
+          <path stroke="#105a2c" d="M 651.91 78.80 Q 667.11 85.89 681.74 94.39"/>
+          <path stroke="#105a2c" d="M 671.38 116.15 C 661.64 110.32 650.90 106.39 640.21 102.64 A 0.24 0.19 38.0 0 0 640.08 102.64 Q 639.98 102.68 639.85 102.77"/>
+          <path stroke="#105a2c" d="M 610.26 305.15 Q 610.57 305.49 609.83 305.17 Q 594.32 298.36 580.08 288.88"/>
+          <path stroke="#105a2c" d="M 595.26 334.46 Q 579.78 327.03 564.74 318.19"/>
+        </g>
+        <path class="st1" d="M 651.91 78.80 Q 667.11 85.89 681.74 94.39 Q 695.67 102.70 708.10 113.39 Q 720.96 124.44 728.80 137.90 Q 740.15 157.41 736.56 178.39 C 734.51 190.37 728.73 201.87 721.17 211.61 A 0.15 0.14 -23.6 0 1 720.91 211.51 Q 722.19 199.77 720.46 187.46 C 716.12 156.74 698.63 131.55 671.38 116.15 C 661.64 110.32 650.90 106.39 640.21 102.64 A 0.24 0.19 38.0 0 0 640.08 102.64 Q 639.98 102.68 639.85 102.77 Q 639.68 102.30 639.28 102.16 Q 615.47 93.87 593.50 82.76 Q 584.76 78.33 576.06 71.75 C 561.73 60.90 554.32 47.00 558.80 28.99 Q 562.13 15.61 571.93 0.78 A 0.23 0.23 0.0 0 1 572.35 0.87 Q 574.29 13.68 581.37 23.91 Q 592.43 39.92 608.45 52.07 Q 628.83 67.54 651.91 78.80 Z"/>
+        <path class="st2" d="M 681.74 94.39 Q 667.11 85.89 651.91 78.80 C 658.86 54.65 654.26 28.98 642.82 7.13 A 0.20 0.20 0.0 0 1 643.11 6.88 C 670.57 27.42 692.47 58.36 681.74 94.39 Z"/>
+        <path class="st1" d="M 44.89 221.27 A 0.39 0.39 0.0 0 0 44.50 221.66 L 44.50 272.43 A 0.31 0.31 0.0 0 1 44.19 272.74 L 0.81 272.74 A 0.31 0.30 0.0 0 1 0.50 272.44 L 0.50 99.31 A 0.32 0.32 0.0 0 1 0.82 98.99 Q 39.63 99.02 76.22 98.94 Q 88.24 98.91 94.25 100.15 C 117.14 104.85 133.51 121.53 138.27 144.62 C 145.39 179.15 128.24 212.09 92.53 219.98 Q 86.29 221.36 71.79 221.30 Q 49.07 221.20 44.89 221.27 Z M 44.59 138.29 L 44.41 190.53 A 0.35 0.35 0.0 0 0 44.76 190.88 L 69.74 190.97 A 21.87 21.56 0.2 0 0 91.68 169.48 L 91.72 159.66 A 21.87 21.56 0.2 0 0 69.92 138.03 L 44.94 137.94 A 0.35 0.35 0.0 0 0 44.59 138.29 Z"/>
+        <path class="st1" d="M 299.15 272.40 A 0.23 0.23 0.0 0 1 298.95 272.74 L 243.20 272.74 A 0.87 0.86 -12.1 0 1 242.41 272.24 L 219.50 222.64 A 1.69 1.68 -7.4 0 0 218.25 221.68 Q 206.43 219.66 193.52 219.32 A 0.26 0.26 0.0 0 0 193.25 219.58 L 193.25 272.43 A 0.31 0.31 0.0 0 1 192.94 272.74 L 150.05 272.74 A 0.31 0.30 90.0 0 1 149.75 272.43 L 149.75 100.14 A 0.40 0.40 0.0 0 1 150.15 99.74 Q 242.88 99.79 246.46 99.72 Q 257.16 99.52 261.91 101.11 C 283.14 108.21 292.70 129.01 293.64 150.05 C 294.73 174.32 289.71 200.67 262.71 208.08 A 0.18 0.17 -24.1 0 0 262.60 208.34 Q 281.21 239.50 299.15 272.40 Z M 192.14 141.05 L 192.36 184.11 A 0.46 0.46 0.0 0 0 192.83 184.57 L 226.69 184.39 A 23.40 19.88 -0.3 0 0 249.98 164.39 L 249.96 160.17 A 23.40 19.88 -0.3 0 0 226.45 140.41 L 192.60 140.59 A 0.46 0.46 0.0 0 0 192.14 141.05 Z"/>
+        <path class="st1" d="M 389.84 100.08 C 405.31 100.16 421.68 102.58 435.52 109.67 C 463.06 123.78 475.90 149.51 477.44 180.42 Q 477.53 182.17 477.50 188.30 Q 477.46 194.43 477.36 196.18 C 475.48 227.08 462.37 252.67 434.68 266.48 C 420.76 273.42 404.37 275.66 388.90 275.58 C 373.43 275.49 357.07 273.08 343.23 265.99 C 315.69 251.88 302.85 226.15 301.31 195.24 Q 301.22 193.48 301.25 187.36 Q 301.29 181.23 301.39 179.47 C 303.27 148.58 316.38 122.99 344.07 109.18 C 357.99 102.24 374.38 100.00 389.84 100.08 Z M 345.67 187.77 C 345.73 214.49 358.29 235.11 387.52 235.05 C 416.76 234.99 429.23 214.31 429.17 187.59 C 429.12 160.86 416.55 140.24 387.32 140.30 C 358.09 140.37 345.61 161.04 345.67 187.77 Z"/>
+        <path fill="#1cac50" d="M 772.20 100.75 Q 793.62 100.68 820.52 100.81 C 839.78 100.89 859.15 102.86 877.09 109.81 C 907.10 121.44 920.48 146.65 922.33 177.73 Q 922.93 187.75 922.35 196.05 C 920.33 225.21 907.32 248.89 880.52 262.07 C 863.48 270.45 843.36 273.64 824.49 273.70 Q 796.61 273.80 771.79 273.73 A 0.32 0.32 0.0 0 1 771.48 273.41 L 771.48 101.47 A 0.72 0.72 0.0 0 1 772.20 100.75 Z M 815.74 187.02 Q 815.73 241.52 815.77 243.48 A 0.55 0.55 0.0 0 0 816.27 244.02 Q 826.15 244.87 837.31 242.78 C 864.62 237.68 875.60 216.59 875.99 190.75 Q 876.00 190.18 876.00 187.04 Q 876.00 183.89 875.99 183.32 C 875.61 157.48 864.64 136.39 837.34 131.27 Q 826.18 129.18 816.30 130.02 A 0.55 0.55 0.0 0 0 815.80 130.56 Q 815.76 132.53 815.74 187.02 Z"/>
+        <path fill="#1cac50" d="M 1045.65 192.63 A 0.06 0.05 27.7 0 0 1045.75 192.60 L 1045.75 101.23 A 0.48 0.48 0.0 0 1 1046.23 100.75 L 1091.18 100.75 A 0.32 0.31 -0.0 0 1 1091.50 101.06 L 1091.50 273.14 A 0.61 0.61 0.0 0 1 1090.89 273.75 L 1048.73 273.75 A 1.14 1.12 72.1 0 1 1047.81 273.27 L 981.47 178.71 A 0.26 0.26 0.0 0 0 981.00 178.86 L 981.00 273.14 A 0.61 0.61 0.0 0 1 980.39 273.75 L 941.65 273.75 A 0.60 0.60 0.0 0 1 941.05 273.15 L 942.63 101.53 A 0.78 0.78 0.0 0 1 943.41 100.75 L 980.83 100.75 A 0.69 0.67 -16.9 0 1 981.39 101.04 L 1045.65 192.63 Z"/>
+        <path fill="#1cac50" d="M 1172.41 100.75 L 1218.64 100.75 A 0.38 0.38 0.0 0 1 1218.99 100.99 L 1284.92 273.23 A 0.38 0.38 0.0 0 1 1284.57 273.75 L 1239.25 273.75 A 0.38 0.38 0.0 0 1 1238.90 273.51 L 1227.70 244.24 A 0.38 0.38 0.0 0 0 1227.35 244.00 L 1164.64 244.00 A 0.38 0.38 0.0 0 0 1164.29 244.24 L 1152.93 273.51 A 0.38 0.38 0.0 0 1 1152.58 273.75 L 1110.40 273.75 A 0.38 0.38 0.0 0 1 1110.04 273.24 L 1172.05 101.00 A 0.38 0.38 0.0 0 1 1172.41 100.75 Z M 1196.02 157.04 A 0.34 0.34 0.0 0 0 1195.39 157.05 L 1178.29 204.54 A 0.34 0.34 0.0 0 0 1178.61 205.00 L 1214.70 205.00 A 0.34 0.34 0.0 0 0 1215.01 204.53 L 1196.02 157.04 Z"/>
+        <path fill="#1cac50" d="M 671.38 116.15 C 662.36 130.70 648.18 143.85 634.59 153.09 Q 623.34 160.74 612.27 168.28 Q 594.63 180.30 578.32 195.10 A 0.23 0.23 0.0 0 0 578.48 195.50 L 688.14 195.50 A 1.11 1.10 19.3 0 0 689.00 195.09 Q 695.73 186.76 699.46 177.14 A 0.29 0.28 -79.3 0 0 699.20 176.75 L 655.96 176.75 A 0.69 0.68 9.5 0 0 655.31 177.21 Q 654.22 180.21 653.41 180.96 Q 649.40 184.64 644.84 182.85 C 635.78 179.30 640.70 165.21 650.36 168.58 Q 654.21 169.92 655.26 174.39 A 0.47 0.46 -6.1 0 0 655.72 174.75 L 699.85 174.75 A 0.67 0.67 0.0 0 0 700.51 174.17 Q 700.64 173.13 700.91 172.70 A 0.43 0.42 48.7 0 1 701.65 172.75 Q 706.90 183.80 708.10 191.00 Q 711.10 208.99 701.49 224.83 Q 694.02 237.14 682.76 247.53 C 667.74 261.39 652.70 271.86 634.67 283.42 Q 620.90 292.24 610.26 305.15 Q 610.57 305.49 609.83 305.17 Q 594.32 298.36 580.08 288.88 Q 585.91 281.44 592.40 275.15 C 602.11 265.75 611.07 258.95 623.58 250.50 C 640.28 239.22 656.38 227.34 670.56 214.58 A 0.33 0.33 0.0 0 0 670.34 214.00 L 560.90 214.00 A 0.40 0.39 -69.1 0 0 560.60 214.14 Q 554.61 221.73 551.08 230.16 A 0.43 0.43 0.0 0 0 551.48 230.75 L 594.77 230.75 A 0.71 0.70 6.7 0 0 595.46 230.21 Q 596.59 225.61 600.96 224.47 C 608.97 222.39 614.16 232.66 607.69 237.88 C 603.18 241.52 596.91 239.10 595.38 233.29 A 0.74 0.72 82.1 0 0 594.68 232.75 L 551.01 232.75 A 0.89 0.88 5.1 0 0 550.14 233.47 Q 549.99 234.31 549.96 234.34 A 0.43 0.43 0.0 0 1 549.29 234.19 Q 544.22 223.56 542.71 216.24 C 538.84 197.43 547.74 180.68 560.59 167.59 Q 576.28 151.60 596.63 138.12 Q 610.20 129.14 615.80 125.55 Q 628.77 117.23 639.85 102.77 Q 639.98 102.68 640.08 102.64 A 0.24 0.19 38.0 0 1 640.21 102.64 C 650.90 106.39 661.64 110.32 671.38 116.15 Z"/>
+        <ellipse fill="#1cac50" cx="0" cy="0" transform="translate(670.05,149.34) rotate(90)" rx="8.81" ry="6.53"/>
+        <path class="st1" d="M 580.08 288.88 Q 594.32 298.36 609.83 305.17 Q 610.57 305.49 610.26 305.15 Q 610.54 305.78 610.85 305.91 Q 634.59 316.09 655.94 329.55 Q 668.57 337.51 678.54 347.95 C 688.67 358.56 693.82 372.00 689.95 386.76 Q 687.02 397.92 679.92 407.64 A 0.27 0.27 0.0 0 1 679.44 407.51 C 678.57 399.03 671.62 389.08 665.63 382.36 C 646.94 361.46 620.83 346.11 595.26 334.46 Q 579.78 327.03 564.74 318.19 C 549.21 309.17 533.86 298.10 522.74 284.03 Q 502.93 258.95 513.35 228.54 Q 518.11 214.64 526.06 203.08 A 0.18 0.18 0.0 0 1 526.38 203.18 Q 526.36 222.32 534.81 239.50 Q 542.22 254.58 553.33 266.42 Q 565.40 279.29 580.08 288.88 Z"/>
+        <ellipse fill="#1cac50" cx="0" cy="0" transform="translate(580.72,261.19) rotate(90)" rx="8.82" ry="6.53"/>
+        <path fill="#1cac50" d="M 595.26 334.46 Q 592.36 345.86 592.53 355.25 Q 592.98 380.95 604.95 403.61 A 0.15 0.14 4.5 0 1 604.73 403.79 Q 586.94 390.98 574.48 372.64 C 563.44 356.38 559.51 337.37 564.74 318.19 Q 579.78 327.03 595.26 334.46 Z"/>
+      </svg>
+    </a>
+    <a href="https://wa.me/5588997380077?text=Olá!%20Tenho%20interesse%20no%20curso%20Técnico%20de%20Enfermagem%20da%20Pro%20DNA!" class="nav-cta" target="_blank">
+      📲 Quero me matricular
+    </a>
+  </div>
+</nav>
+
+<!-- ════════ HERO ════════ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-eyebrow">
+        <span class="pulse-dot"></span>
+        <span class="eyebrow-text">Matrículas abertas · Vagas limitadas</span>
+      </div>
+      <h1 class="hero-title">
+        Entre numa<br/>profissão que<br/><span class="accent">nunca para</span><br/>de contratar.
+      </h1>
+      <p class="hero-desc">
+        Curso <strong>Técnico de Enfermagem</strong> presencial em 2 anos.
+        Atuação em UTI, cirurgia, home care, hemodiálise, concursos públicos e muito mais.
+        Piso salarial de <strong style="color:var(--green2);">R$ 3.325,00</strong> — e vagas perto de você.
+      </p>
+      <div class="hero-chips">
+        <span class="chip"><span class="chip-icon">🎓</span>Inscrição Grátis</span>
+        <span class="chip"><span class="chip-icon">📋</span>Matrícula Grátis</span>
+        <span class="chip"><span class="chip-icon">👕</span>Fardamento Grátis</span>
+        <span class="chip"><span class="chip-icon">🔒</span>Preço Congelado</span>
+      </div>
+      <div class="hero-ctas">
+        <a href="https://wa.me/5588997380077?text=Olá!%20Quero%20garantir%20minha%20vaga%20no%20curso%20Técnico%20de%20Enfermagem%20da%20Pro%20DNA!" class="btn-orange" target="_blank">
+          ➜ &nbsp;Garantir minha vaga agora
+        </a>
+      </div>
+    </div>
+
+    <!-- VIDEO PLACEHOLDER -->
+    <div>
+      <div class="video-box">
+        <div class="video-play-btn">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <span class="video-placeholder-text">Assista ao vídeo</span>
+        <span class="video-badge">🎬 <span>Cole aqui o link do seu vídeo</span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ OFFER STRIP ════════ -->
+<div class="offer-strip">
+  <div class="offer-strip-inner">
+    <div class="offer-item">
+      <div class="offer-icon">🎓</div>
+      <div class="offer-label">Inscrição</div>
+      <div class="offer-value">GRÁTIS</div>
+      <div class="offer-desc">Sem nenhum custo pra começar</div>
+    </div>
+    <div class="offer-item">
+      <div class="offer-icon">📋</div>
+      <div class="offer-label">Matrícula</div>
+      <div class="offer-value">GRÁTIS</div>
+      <div class="offer-desc">Zero taxa de entrada</div>
+    </div>
+    <div class="offer-item">
+      <div class="offer-icon">👕</div>
+      <div class="offer-label">Fardamento</div>
+      <div class="offer-value">GRÁTIS</div>
+      <div class="offer-desc">Uniforme completo incluso</div>
+    </div>
+    <div class="offer-item">
+      <div class="offer-icon">🔒</div>
+      <div class="offer-label">Mensalidade</div>
+      <div class="offer-value">Congelada</div>
+      <div class="offer-desc">Preço fixo do início ao fim</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ O QUE O TÉCNICO FAZ ════════ -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="tag">O que o técnico faz</span>
+      <h2 class="section-title" style="margin-top:16px;">Muito além de<br/><span>aplicar injeção.</span></h2>
+      <p class="section-sub">O Técnico de Enfermagem é o profissional mais presente na vida do paciente — com competências técnicas que fazem diferença real no cuidado.</p>
+    </div>
+    <div class="proc-grid">
+      <div class="proc-card">
+        <div class="proc-card-icon">💉</div>
+        <div class="proc-card-title">Administração de Medicamentos</div>
+        <div class="proc-card-desc">Aplica medicamentos por via intravenosa, intramuscular e subcutânea com precisão e segurança clínica.</div>
+      </div>
+      <div class="proc-card">
+        <div class="proc-card-icon">🩹</div>
+        <div class="proc-card-title">Curativos e Manejo de Feridas</div>
+        <div class="proc-card-desc">Realiza coberturas complexas e acompanha a evolução de feridas cirúrgicas e crônicas.</div>
+      </div>
+      <div class="proc-card">
+        <div class="proc-card-icon">📟</div>
+        <div class="proc-card-title">Monitorização do Paciente</div>
+        <div class="proc-card-desc">Controla sinais vitais, realiza ECG e registra balanço hídrico com rigor clínico.</div>
+      </div>
+      <div class="proc-card">
+        <div class="proc-card-icon">🔬</div>
+        <div class="proc-card-title">Sondas e Soroterapia</div>
+        <div class="proc-card-desc">Instala e monitora sondas vesicais, nasogástricas, cateteres e soroterapia.</div>
+      </div>
+      <div class="proc-card">
+        <div class="proc-card-icon">🫁</div>
+        <div class="proc-card-title">Suporte Respiratório</div>
+        <div class="proc-card-desc">Atua em oxigenoterapia, aspiração de vias aéreas e suporte a pacientes em estado crítico.</div>
+      </div>
+      <div class="proc-card">
+        <div class="proc-card-icon">🩸</div>
+        <div class="proc-card-title">Punção Venosa e Coletas</div>
+        <div class="proc-card-desc">Realiza punções venosas e coletas de materiais para exames laboratoriais com técnica.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ ÁREAS ════════ -->
+<section class="section areas-bg">
+  <div class="container">
+    <div class="section-header">
+      <span class="tag">Onde você pode trabalhar</span>
+      <h2 class="section-title" style="margin-top:16px;">Uma formação.<br/><span>Múltiplas carreiras.</span></h2>
+      <p class="section-sub">O Técnico de Enfermagem atua em praticamente todos os ambientes de saúde — com estabilidade, propósito e salário.</p>
+    </div>
+    <div class="areas-grid">
+      <div class="area-card"><div class="area-icon">🏥</div><div class="area-name">UTI e Centro Cirúrgico</div><div class="area-desc">Cuidado intensivo e suporte em procedimentos cirúrgicos complexos.</div></div>
+      <div class="area-card"><div class="area-icon">🚑</div><div class="area-name">SAMU e Emergências</div><div class="area-desc">Atendimento de urgência pré-hospitalar e em prontos-socorros.</div></div>
+      <div class="area-card"><div class="area-icon">🏠</div><div class="area-name">Home Care</div><div class="area-desc">Assistência domiciliar humanizada a pacientes em recuperação.</div></div>
+      <div class="area-card"><div class="area-icon">💉</div><div class="area-name">Hemodiálise e Oncologia</div><div class="area-desc">Cuidados especializados em tratamentos de alta complexidade.</div></div>
+      <div class="area-card"><div class="area-icon">👶</div><div class="area-name">Neonatologia e Pediatria</div><div class="area-desc">Cuidado com recém-nascidos e crianças em ambiente hospitalar.</div></div>
+      <div class="area-card"><div class="area-icon">🧴</div><div class="area-name">Clínicas Estéticas</div><div class="area-desc">Procedimentos estéticos com mercado em crescimento acelerado.</div></div>
+      <div class="area-card"><div class="area-icon">📋</div><div class="area-name">Concursos Públicos</div><div class="area-desc">Vagas municipais, estaduais e federais com estabilidade e benefícios.</div></div>
+      <div class="area-card"><div class="area-icon">🏢</div><div class="area-name">Medicina do Trabalho</div><div class="area-desc">Saúde ocupacional em empresas, indústrias e órgãos públicos.</div></div>
+    </div>
+
+    <div class="salary-banner">
+      <div>
+        <div class="salary-label">Piso Salarial Nacional</div>
+        <div class="salary-value">R$ 3.325</div>
+        <div class="salary-sub">Lei do Piso da Enfermagem · Lei 14.434/2022</div>
+      </div>
+      <div class="salary-desc">
+        O mercado está <span>contratando o ano inteiro.</span><br/>
+        Vagas disponíveis perto de você com carteira assinada desde o primeiro emprego.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ DEPOIMENTOS ════════ -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="tag">Resultados reais</span>
+      <h2 class="section-title" style="margin-top:16px;">Quem já passou<br/><span>pela Pro DNA.</span></h2>
+    </div>
+    <div class="proof-grid">
+      <div class="proof-card">
+        <div class="proof-stars">★★★★★</div>
+        <div class="proof-quote">Passei em concurso público antes mesmo de terminar o curso. Não acreditei quando saiu o resultado — mas estava lá, meu nome na lista.</div>
+        <div class="proof-author">
+          <div class="proof-avatar">A</div>
+          <div><div class="proof-name">Aluno da Pro DNA</div><div class="proof-role">Aprovado em concurso público · ainda no curso</div></div>
+        </div>
+      </div>
+      <div class="proof-card">
+        <div class="proof-stars">★★★★★</div>
+        <div class="proof-quote">Entrei sem pagar nada, com fardamento já incluído. Terminei o curso com emprego garantido num hospital da região. Valeu cada aula.</div>
+        <div class="proof-author">
+          <div class="proof-avatar">M</div>
+          <div><div class="proof-name">Aluna da Pro DNA</div><div class="proof-role">Técnica de Enfermagem · Hospital Regional</div></div>
+        </div>
+      </div>
+      <div class="proof-card">
+        <div class="proof-stars">★★★★★</div>
+        <div class="proof-quote">O mercado contrata técnico o tempo todo. Mal terminei e já recebi três propostas. A formação da Pro DNA abre porta de verdade.</div>
+        <div class="proof-author">
+          <div class="proof-avatar">R</div>
+          <div><div class="proof-name">Aluno da Pro DNA</div><div class="proof-role">Técnico de Enfermagem · Clínica Particular</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ CTA FINAL ════════ -->
+<section class="cta-section">
+  <div class="cta-inner">
+    <span class="tag">Não deixa pra amanhã</span>
+    <h2 class="cta-title" style="margin-top:20px;">
+      Não tem mais<br/>desculpa pra <span>adiar.</span>
+    </h2>
+    <p class="cta-sub">
+      Inscrição grátis. Matrícula grátis. Fardamento grátis.<br/>
+      Preço congelado do começo ao fim.<br/>
+      <strong>Você entra sem pagar nada pra começar.</strong>
+    </p>
+    <div class="cta-buttons">
+      <a href="https://wa.me/5588997380077?text=Olá!%20Quero%20garantir%20minha%20vaga%20no%20curso%20Técnico%20de%20Enfermagem%20da%20Pro%20DNA!" class="btn-orange" target="_blank" style="font-size:1.1rem;padding:20px 48px;">
+        ➜ &nbsp;Garantir minha vaga agora
+      </a>
+      <a href="https://wa.me/5588997380077" class="btn-wpp" target="_blank">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.119.554 4.107 1.523 5.832L.057 23.882l6.195-1.463A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.79 9.79 0 01-5.031-1.388l-.361-.214-3.741.882.933-3.648-.235-.374A9.786 9.786 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182c5.42 0 9.818 4.398 9.818 9.818 0 5.42-4.398 9.818-9.818 9.818z"/></svg>
+        Falar pelo WhatsApp
+      </a>
+      <span class="cta-note">Ou siga no Instagram: <a href="https://instagram.com/poloprodna" target="_blank">@poloprodna</a></span>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ FOOTER ════════ -->
+<footer>
+  <div class="footer-inner">
+    <svg class="logo-svg-sm" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1318 408">
+      <style>.fst1{fill:#FFFFFF;}.fst2{fill:#1CAC50;}</style>
+      <path class="fst1" d="M 44.89 221.27 A 0.39 0.39 0.0 0 0 44.50 221.66 L 44.50 272.43 A 0.31 0.31 0.0 0 1 44.19 272.74 L 0.81 272.74 A 0.31 0.30 0.0 0 1 0.50 272.44 L 0.50 99.31 A 0.32 0.32 0.0 0 1 0.82 98.99 Q 39.63 99.02 76.22 98.94 Q 88.24 98.91 94.25 100.15 C 117.14 104.85 133.51 121.53 138.27 144.62 C 145.39 179.15 128.24 212.09 92.53 219.98 Q 86.29 221.36 71.79 221.30 Q 49.07 221.20 44.89 221.27 Z M 44.59 138.29 L 44.41 190.53 A 0.35 0.35 0.0 0 0 44.76 190.88 L 69.74 190.97 A 21.87 21.56 0.2 0 0 91.68 169.48 L 91.72 159.66 A 21.87 21.56 0.2 0 0 69.92 138.03 L 44.94 137.94 A 0.35 0.35 0.0 0 0 44.59 138.29 Z"/>
+      <path fill="#ffffff" d="M 299.15 272.40 A 0.23 0.23 0.0 0 1 298.95 272.74 L 243.20 272.74 A 0.87 0.86 -12.1 0 1 242.41 272.24 L 219.50 222.64 A 1.69 1.68 -7.4 0 0 218.25 221.68 Q 206.43 219.66 193.52 219.32 A 0.26 0.26 0.0 0 0 193.25 219.58 L 193.25 272.43 A 0.31 0.31 0.0 0 1 192.94 272.74 L 150.05 272.74 A 0.31 0.30 90.0 0 1 149.75 272.43 L 149.75 100.14 A 0.40 0.40 0.0 0 1 150.15 99.74 Q 242.88 99.79 246.46 99.72 Q 257.16 99.52 261.91 101.11 C 283.14 108.21 292.70 129.01 293.64 150.05 C 294.73 174.32 289.71 200.67 262.71 208.08 A 0.18 0.17 -24.1 0 0 262.60 208.34 Q 281.21 239.50 299.15 272.40 Z M 192.14 141.05 L 192.36 184.11 A 0.46 0.46 0.0 0 0 192.83 184.57 L 226.69 184.39 A 23.40 19.88 -0.3 0 0 249.98 164.39 L 249.96 160.17 A 23.40 19.88 -0.3 0 0 226.45 140.41 L 192.60 140.59 A 0.46 0.46 0.0 0 0 192.14 141.05 Z"/>
+      <path fill="#ffffff" d="M 389.84 100.08 C 405.31 100.16 421.68 102.58 435.52 109.67 C 463.06 123.78 475.90 149.51 477.44 180.42 Q 477.53 182.17 477.50 188.30 Q 477.46 194.43 477.36 196.18 C 475.48 227.08 462.37 252.67 434.68 266.48 C 420.76 273.42 404.37 275.66 388.90 275.58 C 373.43 275.49 357.07 273.08 343.23 265.99 C 315.69 251.88 302.85 226.15 301.31 195.24 Q 301.22 193.48 301.25 187.36 Q 301.29 181.23 301.39 179.47 C 303.27 148.58 316.38 122.99 344.07 109.18 C 357.99 102.24 374.38 100.00 389.84 100.08 Z M 345.67 187.77 C 345.73 214.49 358.29 235.11 387.52 235.05 C 416.76 234.99 429.23 214.31 429.17 187.59 C 429.12 160.86 416.55 140.24 387.32 140.30 C 358.09 140.37 345.61 161.04 345.67 187.77 Z"/>
+      <path fill="#1cac50" d="M 772.20 100.75 Q 793.62 100.68 820.52 100.81 C 839.78 100.89 859.15 102.86 877.09 109.81 C 907.10 121.44 920.48 146.65 922.33 177.73 Q 922.93 187.75 922.35 196.05 C 920.33 225.21 907.32 248.89 880.52 262.07 C 863.48 270.45 843.36 273.64 824.49 273.70 Q 796.61 273.80 771.79 273.73 A 0.32 0.32 0.0 0 1 771.48 273.41 L 771.48 101.47 A 0.72 0.72 0.0 0 1 772.20 100.75 Z M 815.74 187.02 Q 815.73 241.52 815.77 243.48 A 0.55 0.55 0.0 0 0 816.27 244.02 Q 826.15 244.87 837.31 242.78 C 864.62 237.68 875.60 216.59 875.99 190.75 Q 876.00 190.18 876.00 187.04 Q 876.00 183.89 875.99 183.32 C 875.61 157.48 864.64 136.39 837.34 131.27 Q 826.18 129.18 816.30 130.02 A 0.55 0.55 0.0 0 0 815.80 130.56 Q 815.76 132.53 815.74 187.02 Z"/>
+      <path fill="#1cac50" d="M 1045.65 192.63 L 1045.75 101.23 A 0.48 0.48 0.0 0 1 1046.23 100.75 L 1091.18 100.75 A 0.32 0.31 0.0 0 1 1091.50 101.06 L 1091.50 273.14 A 0.61 0.61 0.0 0 1 1090.89 273.75 L 1048.73 273.75 A 1.14 1.12 72.1 0 1 1047.81 273.27 L 981.47 178.71 A 0.26 0.26 0.0 0 0 981.00 178.86 L 981.00 273.14 A 0.61 0.61 0.0 0 1 980.39 273.75 L 941.65 273.75 A 0.60 0.60 0.0 0 1 941.05 273.15 L 942.63 101.53 A 0.78 0.78 0.0 0 1 943.41 100.75 L 980.83 100.75 A 0.69 0.67 -16.9 0 1 981.39 101.04 L 1045.65 192.63 Z"/>
+      <path fill="#1cac50" d="M 1172.41 100.75 L 1218.64 100.75 A 0.38 0.38 0.0 0 1 1218.99 100.99 L 1284.92 273.23 A 0.38 0.38 0.0 0 1 1284.57 273.75 L 1239.25 273.75 A 0.38 0.38 0.0 0 1 1238.90 273.51 L 1227.70 244.24 A 0.38 0.38 0.0 0 0 1227.35 244.00 L 1164.64 244.00 A 0.38 0.38 0.0 0 0 1164.29 244.24 L 1152.93 273.51 A 0.38 0.38 0.0 0 1 1152.58 273.75 L 1110.40 273.75 A 0.38 0.38 0.0 0 1 1110.04 273.24 L 1172.05 101.00 A 0.38 0.38 0.0 0 1 1172.41 100.75 Z M 1196.02 157.04 A 0.34 0.34 0.0 0 0 1195.39 157.05 L 1178.29 204.54 A 0.34 0.34 0.0 0 0 1178.61 205.00 L 1214.70 205.00 A 0.34 0.34 0.0 0 0 1215.01 204.53 L 1196.02 157.04 Z"/>
+      <path fill="#1cac50" d="M 671.38 116.15 C 662.36 130.70 648.18 143.85 634.59 153.09 Q 623.34 160.74 612.27 168.28 Q 594.63 180.30 578.32 195.10 A 0.23 0.23 0.0 0 0 578.48 195.50 L 688.14 195.50 A 1.11 1.10 19.3 0 0 689.00 195.09 Q 695.73 186.76 699.46 177.14 A 0.29 0.28 -79.3 0 0 699.20 176.75 L 655.96 176.75 A 0.69 0.68 9.5 0 0 655.31 177.21 Q 654.22 180.21 653.41 180.96 Q 649.40 184.64 644.84 182.85 C 635.78 179.30 640.70 165.21 650.36 168.58 Q 654.21 169.92 655.26 174.39 A 0.47 0.46 -6.1 0 0 655.72 174.75 L 699.85 174.75 A 0.67 0.67 0.0 0 0 700.51 174.17 Q 700.64 173.13 700.91 172.70 A 0.43 0.42 48.7 0 1 701.65 172.75 Q 706.90 183.80 708.10 191.00 Q 711.10 208.99 701.49 224.83 Q 694.02 237.14 682.76 247.53 C 667.74 261.39 652.70 271.86 634.67 283.42 Q 620.90 292.24 610.26 305.15 Q 594.32 298.36 580.08 288.88 Q 585.91 281.44 592.40 275.15 C 602.11 265.75 611.07 258.95 623.58 250.50 C 640.28 239.22 656.38 227.34 670.56 214.58 A 0.33 0.33 0.0 0 0 670.34 214.00 L 560.90 214.00 A 0.40 0.39 -69.1 0 0 560.60 214.14 Q 554.61 221.73 551.08 230.16 A 0.43 0.43 0.0 0 0 551.48 230.75 L 594.77 230.75 A 0.71 0.70 6.7 0 0 595.46 230.21 Q 596.59 225.61 600.96 224.47 C 608.97 222.39 614.16 232.66 607.69 237.88 C 603.18 241.52 596.91 239.10 595.38 233.29 A 0.74 0.72 82.1 0 0 594.68 232.75 L 551.01 232.75 A 0.89 0.88 5.1 0 0 550.14 233.47 Q 549.99 234.31 549.96 234.34 A 0.43 0.43 0.0 0 1 549.29 234.19 Q 544.22 223.56 542.71 216.24 C 538.84 197.43 547.74 180.68 560.59 167.59 Q 576.28 151.60 596.63 138.12 Q 610.20 129.14 615.80 125.55 Q 628.77 117.23 639.85 102.77 C 650.90 106.39 661.64 110.32 671.38 116.15 Z"/>
+      <ellipse fill="#1cac50" cx="0" cy="0" transform="translate(670.05,149.34) rotate(90)" rx="8.81" ry="6.53"/>
+      <ellipse fill="#1cac50" cx="0" cy="0" transform="translate(580.72,261.19) rotate(90)" rx="8.82" ry="6.53"/>
+    </svg>
+    <div class="footer-tagline">Seja você um destaque no mercado de trabalho</div>
+    <div class="footer-contact">
+      <a href="https://wa.me/5588997380077" target="_blank">📲 88 9 9738-0077</a>
+      <a href="https://instagram.com/poloprodna" target="_blank">📍 @poloprodna</a>
+    </div>
+    <div class="footer-copy">© 2025 Pro DNA Técnico · Todos os direitos reservados</div>
+  </div>
+</footer>
+
+</body>
+</html>
